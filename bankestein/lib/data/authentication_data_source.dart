@@ -5,7 +5,7 @@ abstract class AuthenticationDataSource {
   // static const baseUrl = 'http://localhost:3000';
   static const baseUrl = 'http://10.0.2.2:8000';
 
-  static Future<bool> login({
+  static Future<String> login({
     required String email,
     required String password,
   }) async {
@@ -21,7 +21,9 @@ abstract class AuthenticationDataSource {
     );
 
     if (response.statusCode == 200) {
-      return true;
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      return responseBody['access_token'];
+      // return true;
     } else {
       throw Exception('Failed to login');
     }
