@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:bankestein/bloc/authentication_cubit.dart';
 
 class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+   LoginView({super.key});
 
   static const String pageName = 'login';
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +37,22 @@ class LoginView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              decoration: const InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.emailAddress,
+              controller: emailController,
             ),
             const SizedBox(height: 24),
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              decoration: const InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(),
               ),
               obscureText: true,
+              controller: passwordController,
             ),
             const SizedBox(height: 24),
             TextButton(
@@ -59,6 +67,10 @@ class LoginView extends StatelessWidget {
               ),
               onPressed: () {
                 // Logique de connexion
+                String email = emailController.text.trim();
+                String password = passwordController.text.trim();
+                print('Login button pressed with email: $email and password: $password');
+                context.read<AuthenticationCubit>().login(email, password);
               },
               child: const Text('Login'),
             ),
