@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 abstract class AuthenticationDataSource {
   // static const baseUrl = 'http://localhost:3000';
   static const baseUrl = 'http://10.0.2.2:8000';
+
+  static final StreamController<String?> _authController =
+      StreamController<String?>.broadcast();
 
   static Future<String> login({
     required String email,
@@ -22,11 +27,18 @@ abstract class AuthenticationDataSource {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseBody = jsonDecode(response.body);
-      return responseBody['access_token'];
+      String accessToken = responseBody['access_token'];
+      _authController.add(accessToken);
+      return accessToken;
       // return true;
     } else {
       throw Exception('Failed to login');
     }
+  }
+
+  static Future<void> logout() async {
+    // Add your logout logic here
+    _authController.add(null);
   }
 
   static Future<Map<String, dynamic>> getUserInfo(String accessToken) async {
@@ -43,5 +55,9 @@ abstract class AuthenticationDataSource {
     } else {
       throw Exception('Failed to load user info');
     }
+  }
+
+  static Stream<String?> authChanges() {
+    return _authController.stream;
   }
 }
