@@ -1,0 +1,50 @@
+<%- include('common/header') %>
+
+<script defer src="/js/todo.js"></script>
+
+<div class="columns">
+    <div class="column is-4 is-offset-4">
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    Liste des tâche(s)
+                </p>
+            </header>
+            <div class="card-content">
+                <div class="content">
+                    <% if(typeof errorMessage !== 'undefined') { %>
+                        <%- include('common/errorMessage', {errorMessage})%>
+                    <% } %>
+                    <div class="message is-info">
+                        <div class="message-body">
+                            Pour mettre à jour une tâche, double-cliquez dessus.
+                        </div>
+                    </div>
+
+                    <% for(const todo of todos) { %>
+                        <div class="box is-flex is-justify-content-space-between is-align-items-center">
+                            <div class="totoContent cursor-pointer is-flex-grow-1"><%- todo.content %></div>
+                            <form class="is-flex is-justify-content-space-between w-full is-hidden" method="post" action="/updateTodo/<%= todo.id %>">
+                                <input class="input is-fullwidth" name="content" type="text" placeholder="Faire les courses" value="<%= todo.content %>">
+                                <button class="button is-info updateTodoBtn" type="submit">Modifier</button>
+                            </form>
+                            <a class="button is-danger" href="/removeTodo/<%= todo.id %>">
+                                Supprimer
+                            </a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <footer class="card-footer">
+                <div class="card-footer-item">
+                    <form action="/addTodo" method="post" class="is-flex w-full">
+                        <input class="input is-fullwidth" name="content" type="text" placeholder="Faire les courses">
+                        <button class="button is-primary" type="submit">Ajouter</button>
+                    </form>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>
+
+<%- include('common/footer') %>

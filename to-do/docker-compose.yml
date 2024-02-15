@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  node:
+    build: ./
+    env_file:
+      - .env
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+      - "9229:9229"
+    depends_on:
+      - postgresql
+      - redis
+    networks:
+      - to-do-network
+
+  redis:
+    image: "redis:alpine"
+    networks:
+      - to-do-network
+
+  postgresql:
+    image: "postgres"
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    networks:
+      - to-do-network
+    command: -p ${DB_PORT}
+
+networks:
+  to-do-network:
+    driver: bridge

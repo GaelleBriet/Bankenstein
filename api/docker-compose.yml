@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+    laravel:
+        image: bitnami/laravel:latest
+        restart: on-failure
+        ports:
+            - "8000:8000"
+        env_file:
+            - ./.env
+        volumes:
+            - ./:/app
+            - /app/node_modules
+        depends_on:
+            - mysql
+        command : ["sh", "-c", "composer install && npm install && php artisan key:generate && npm run build && php artisan migrate:fresh --seed && php artisan serve --host 0.0.0.0"]
+
+    mysql:
+        image: mysql:latest
+        ports:
+            - "3306:3306"
+        env_file:
+            - ./.env
+        volumes:
+            - mysql-data:/var/lib/mysql
+
+    adminer:
+        image: adminer:latest
+        depends_on:
+            - mysql
+        ports:
+            - "8080:8080"
+
+volumes:
+    mysql-data:
