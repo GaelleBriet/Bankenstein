@@ -6,12 +6,19 @@
 - lignes : 48, 71, 103, 117
 
 ```javascript
+// Ici faudrait utiliser des requêtes préparées
+
+  // req.body.username te req.body.password sont insérés directement dans la requête SQL,
+  // l'utilisateur peut entrer des données malveillantes
   const query = `SELECT * FROM users WHERE username = '${req.body.username}' AND password = '${req.body.password}'`;
 
+  // userId est directement inséré dans la requête SQL
   const query = `SELECT * FROM todos WHERE todos.user_id = ${userId} ORDER BY todos.id`;
 
+  // req.params.id est directement inséré dans la requête SQL
   const query = `DELETE FROM todos WHERE id = ${req.params.id}`;
 
+  // req.body.contant est paramétré/prépapré, mais req.params.id est directement inséré dans la requête SQL
   const query = `UPDATE todos SET content = $1 WHERE todos.id = $2`;
   await database.query(query, [req.body.content, req.params.id]);
 ```
@@ -27,29 +34,19 @@ ____
  - ligne : 15
 
  ```javascript
+  // Il faut hacher les mots de passes et données sensibles avant de les enregistrer en BDD
       app.post("/login", async function (req, res) {
         try {
+          // Le mot de passe est utilisé tel quel dans la requête SQL
+          // il est donc stocké en clair
           const query = `SELECT * FROM users WHERE username = '${req.body.username}' AND password = '${req.body.password}'`;
           const {rows: users} = await database.query(query);
-
-          if (users.length) {
-            req.session.user = users[0];
-            res.redirect("/todo");
-          } else {
-            res.render("index", {
-              errorMessage: "Utilisateur non trouvé"
-            });
-          }
-
-        } catch (e) {
-          res.render("index", {
-            errorMessage: "Une erreur est survenue"
-          });
         }
       });
 ```
 
-```
+```javascript
+  // Les username et password sont entrés en dur, sans hachage
     INSERT INTO users (username, password) VALUES ('admin', 'admin');
 ```
 _____
@@ -62,27 +59,39 @@ _____
 ```javascript
   app.post("/login", async function (req, res) {
     try {
+      // vérifier que req.body.username et req.body.password sont définis et non vides
+      // échapper et paramétrer les valeurs avant de les fournir à la requête
       const query = `SELECT * FROM users WHERE username = '${req.body.username}' AND password = '${req.body.password}'`;
       const {rows: users} = await database.query(query);
   });
   app.get("/todo", async function (req, res) {
   try {
+      // vérifier que  req.session.user?.id est défini et qu'il est un nombre valide
+      // échapper et paramétrer les valeurs avant de les fournir à la requête
     const userId = req.session.user?.id;
     const query = `SELECT * FROM todos WHERE todos.user_id = ${userId} ORDER BY todos.id`;
     const {rows: todos} = await database.query(query);
   });
   app.post("/addTodo", async function (req, res) {
   try {
+      // vérifier que  req.body.content est défini et non vide
+      // échapper et paramétrer les valeurs avant de les fournir à la requête
     const userId = req.session.user?.id;
     const query = `INSERT INTO todos (content, user_id) VALUES ($1, $2)`;
+    await database.query(query, [req.body.content, userId]);
+    res.redirect("/todo");
   });
   app.get("/removeTodo/:id", async function (req, res) {
     try {
+      // vérifier que req.params.id est défini et un nombre valide
+      // échapper et paramétrer les valeurs avant de les fournir à la requête
       const query = `DELETE FROM todos WHERE id = ${req.params.id}`;
       await database.query(query);
   });
   app.post("/updateTodo/:id", async function (req, res) {
     try {
+      // vérifier que req.body.content est défini et non vide
+      // échapper et paramétrer les valeurs avant de les fournir à la requête
       const query = `UPDATE todos SET content = $1 WHERE todos.id = $2`;
       await database.query(query, [req.body.content, req.params.id]);
   });
@@ -95,6 +104,8 @@ ____
  - lignes : 51-52
 
 ```javascript
+// si plusieurs utilisateurs ont le même nom et mot de passe, le code ne prends que le premier utilisateur
+// rendre le nom unique par exemple
     if (users.length) {
       req.session.user = users[0];
 ```
@@ -106,6 +117,7 @@ _____
  - lignes : 16
 
 ```javascript
+  // ajouter un jeton CSRF 
   <form action="/login" method="post">
 ```
  ____
@@ -116,6 +128,7 @@ _____
  - lignes : 21
 
 ```javascript
+  // ajouter une contrainte de création de mdp
   <div class="field">
     <label class="label" for="password">Mot de passe</label>
     <input class="input" id="password" name="password" type="password" placeholder="********">
@@ -129,6 +142,8 @@ _____
  - lignes : 26
 
 ```javascript
+  // <%- %> permet d'insérer du HTML ou JS
+  // préférer <%= %> qui échappe le contenu
     <%- todo.content %>
 ```
 ____
