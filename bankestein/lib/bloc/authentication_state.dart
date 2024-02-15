@@ -9,7 +9,13 @@ class AuthenticationUnknown extends AuthenticationState {}
 class AuthenticationUnauthenticated extends AuthenticationState {}
 
 class AuthenticationAuthenticated extends AuthenticationState {
-  final String user;
+  final String accessToken;
 
-  const AuthenticationAuthenticated({required this.user});
+  const AuthenticationAuthenticated({required this.accessToken});
+}
+
+class AuthenticationError extends AuthenticationState {
+  final String message;
+
+  AuthenticationError(this.message);
 }
