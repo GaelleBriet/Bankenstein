@@ -19,15 +19,16 @@ class LoginView extends StatelessWidget {
               size: 64,
             ),
             const Text('Bankenstein',
-            style: TextStyle(
-              fontSize: 32,
-              color: Color(0xFF711CCC),
-            )),
+                style: TextStyle(
+                  fontSize: 32,
+                  color: Color(0xFF711CCC),
+                )),
             const SizedBox(height: 48),
-            const Text('Login',
-            style: TextStyle(
-              fontSize: 24,
-            ),
+            const Text(
+              'Login',
+              style: TextStyle(
+                fontSize: 24,
+              ),
             ),
             const SizedBox(height: 16),
             const TextField(
