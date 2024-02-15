@@ -1,0 +1,35 @@
+<%- include('common/header') %>
+
+<div class="columns">
+    <div class="column is-4 is-offset-4">
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    Login
+                </p>
+            </header>
+            <div class="card-content">
+                <div class="content">
+                    <% if(typeof errorMessage !== 'undefined') { %>
+                        <%- include('common/errorMessage', {errorMessage})%>
+                    <% } %>
+                    <form action="/login" method="post">
+                        <div class="field">
+                            <label class="label" for="username">Nom d'utilisateur</label>
+                            <input class="input" id="username" name="username" placeholder="jean">
+                        </div>
+                        <div class="field">
+                            <label class="label" for="password">Mot de passe</label>
+                            <input class="input" id="password" name="password" type="password" placeholder="********">
+                        </div>
+                        <div class="field has-text-right">
+                            <button class="button is-primary" type="submit">Se connecter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('common/footer') %>

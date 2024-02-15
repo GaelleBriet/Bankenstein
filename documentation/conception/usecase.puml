@@ -1,0 +1,71 @@
+@startuml
+left to right direction
+
+actor "Visitor"
+actor "User"
+
+
+rectangle Bankenstein {
+  rectangle Authentication {
+      usecase "Consult the login page" as ConsultLoginPage #C8E6FF
+      usecase "Log in" as Login #FFE1C8
+  }
+
+
+  usecase "Consult the home page" as ConsultHomePage #C8E6FF
+
+  rectangle Accounts {
+    usecase "Consult the accounts screen" as ConsultAccountsScreen #C8E6FF
+    usecase "Consult the account details screen" as ConsultAccountDetailsScreen #C8E6FF
+    usecase "Download the bank account details as PDF" as DownloadBankAccountDetails #FFE1C8
+  }
+
+  rectangle Recipients {
+    usecase "Consult the recipients screen" as ConsultRecipientsScreen #C8E6FF
+    usecase "Add a recipient" as AddRecipient #FFE1C8
+    usecase "Remove a recipient" as RemoveRecipient #FFE1C8
+  }
+
+    rectangle Transfer {
+        usecase "Consult the transfer screen" as ConsultTransferScreen #C8E6FF
+        usecase "Make a transfer" as MakeTransfer #FFE1C8
+        usecase "Select an account to transfer from" as SelectAccountToTransferFrom #FFE1C8
+        usecase "Select a recipient to transfer to" as SelectRecipientToTransferTo #FFE1C8
+        usecase "Choose the amount to transfer" as ChooseAmountToTransfer #FFE1C8
+        usecase "Name the transfer" as NameTheTransfer #FFE1C8
+    }
+
+  rectangle Preferences {
+    usecase "Consult the preferences screen" as ConsultPreferencesScreen #C8E6FF
+    usecase "Toggle dark and light mode" as ToggleDarkLightMode #FFE1C8
+    usecase "Change language" as ChangeLanguage #FFE1C8
+    usecase "Log out" as LogOut #FFE1C8
+  }
+}
+
+Visitor -> ConsultLoginPage
+Visitor <|-- User
+
+User --> Login
+User --> ConsultHomePage
+User --> ConsultAccountsScreen
+User --> ConsultRecipientsScreen
+User --> ConsultTransferScreen
+User --> ConsultPreferencesScreen
+
+ConsultAccountsScreen <.. ConsultAccountDetailsScreen : extends
+ConsultAccountDetailsScreen <.. DownloadBankAccountDetails : extends
+
+ConsultRecipientsScreen <.. AddRecipient : extends
+ConsultRecipientsScreen <.. RemoveRecipient : extends
+
+ConsultTransferScreen <.. MakeTransfer : extends
+MakeTransfer ..> SelectAccountToTransferFrom : includes
+MakeTransfer ..> SelectRecipientToTransferTo : includes
+MakeTransfer ..> ChooseAmountToTransfer : includes
+MakeTransfer <.. NameTheTransfer : extends
+
+ConsultPreferencesScreen <.. ToggleDarkLightMode : extends
+ConsultPreferencesScreen <.. ChangeLanguage : extends
+ConsultPreferencesScreen <.. LogOut : extends
+@enduml
