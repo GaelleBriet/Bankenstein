@@ -26,7 +26,9 @@ class AccountsListView extends StatelessWidget {
               final account = state.accounts[index];
               final balanceInEuros = account.balance / 100;
               return Container(
-                color: index.isEven ? Colors.grey[200] : Colors.transparent, // Un fond gris pour les lignes paires
+                color: index.isEven
+                    ? Colors.grey[200]
+                    : Colors.transparent, // Un fond gris pour les lignes paires
                 child: ListTile(
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
