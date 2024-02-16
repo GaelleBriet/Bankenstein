@@ -1,19 +1,21 @@
+import 'package:bankestein/views/settings_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-class NavigationBarBottom extends StatefulWidget {
-  const NavigationBarBottom({super.key});
+import '../bloc/settings_cubit.dart';
 
-  @override
-  _NavigationBarBottomState createState() => _NavigationBarBottomState();
-}
+class NavigationBarBottom extends StatelessWidget {
+  const NavigationBarBottom({super.key, required this.selectedIndex});
 
-class _NavigationBarBottomState extends State<NavigationBarBottom> {
-  int _selectedIndex = 0;
+  final int selectedIndex;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void onTap(BuildContext context, int index) {
+    if (index != selectedIndex) {
+      if (index == 4) {
+        context.goNamed(SettingsView.pageName);
+      }
+    }
   }
 
   @override
@@ -21,14 +23,14 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: _selectedIndex == 0
+          icon: selectedIndex == 0
               ? Transform.translate(
                   offset: const Offset(0, -5), child: const Icon(Icons.home))
               : const Icon(Icons.home),
           label: '',
         ),
         BottomNavigationBarItem(
-          icon: _selectedIndex == 1
+          icon: selectedIndex == 1
               ? Transform.translate(
                   offset: const Offset(0, -5),
                   child: const Icon(Icons.account_balance_wallet))
@@ -36,7 +38,7 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
           label: '',
         ),
         BottomNavigationBarItem(
-          icon: _selectedIndex == 2
+          icon: selectedIndex == 2
               ? Transform.translate(
                   offset: const Offset(0, -5),
                   child: const Icon(Icons.supervisor_account))
@@ -44,7 +46,7 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
           label: '',
         ),
         BottomNavigationBarItem(
-          icon: _selectedIndex == 3
+          icon: selectedIndex == 3
               ? Transform.translate(
                   offset: const Offset(0, -5),
                   child: const Icon(Icons.compare_arrows))
@@ -52,7 +54,7 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
           label: '',
         ),
         BottomNavigationBarItem(
-          icon: _selectedIndex == 4
+          icon: selectedIndex == 4
               ? Transform.translate(
                   offset: const Offset(0, -5),
                   child: const Icon(Icons.settings))
@@ -60,14 +62,14 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
           label: '',
         ),
       ],
-      currentIndex: _selectedIndex,
+      currentIndex: selectedIndex,
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white,
-      backgroundColor: const Color(0xFF711CCC),
+      backgroundColor: context.watch<SettingCubit>().state.primaryColor,
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      onTap: _onItemTapped,
+      onTap: (index) => onTap(context, index),
     );
   }
 }
