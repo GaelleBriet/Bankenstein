@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../bloc/settings_cubit.dart';
 
 class NavigationBarBottom extends StatelessWidget {
-   const NavigationBarBottom({super.key, required this.selectedIndex});
+  const NavigationBarBottom({super.key, required this.selectedIndex});
 
   final int selectedIndex;
 

@@ -37,9 +37,7 @@ class SettingsView extends StatelessWidget {
                       context.read<AuthenticationCubit>().logout();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme
-                          .of(context)
-                          .primaryColor,
+                      backgroundColor: Theme.of(context).primaryColor,
                       foregroundColor: Colors.white,
                     ),
                     child: const Text('Log Out'),
