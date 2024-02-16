@@ -63,7 +63,15 @@ class LoginView extends StatelessWidget {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).primaryColor,
+                onPrimary: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.0), // Bord arrondi spécifique à Material 2
+                ),
                 minimumSize: const Size.fromHeight(50),
+                elevation: 4.0,
+                // backgroundColor: Theme.of(context).primaryColor,
+                // foregroundColor: Colors.white,
               ),
               onPressed: () {
                 // Logique de connexion
