@@ -1,6 +1,8 @@
 import 'package:bankestein/views/accounts_list_view.dart';
 import 'package:bankestein/views/home_view.dart';
+import 'package:bankestein/views/recipient_view.dart';
 import 'package:bankestein/views/settings_view.dart';
+import 'package:bankestein/views/transfer_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +21,12 @@ class NavigationBarBottom extends StatelessWidget {
       }
       if (index == 1) {
         context.goNamed(AccountsListView.pageName);
+      }
+      if (index == 2) {
+        context.goNamed(RecipientsView.pageName);
+      }
+      if (index == 3) {
+        context.goNamed(TransferView.pageName);
       }
       if (index == 4) {
         context.goNamed(SettingsView.pageName);

@@ -1,3 +1,4 @@
+import 'package:bankestein/bloc/account_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -91,7 +92,7 @@ class LoginView extends StatelessWidget {
                   String password = passwordController.text.trim();
                   print(
                       'Login button pressed with email: $email and password: $password');
-                  context.read<AuthenticationCubit>().login(email, password);
+                  context.read<AuthenticationCubit>().login(email, password, context.read<AccountCubit>());
                 },
                 child: const Text('Login'),
               ),
