@@ -17,19 +17,19 @@ class NavigationBarBottom extends StatelessWidget {
   void onTap(BuildContext context, int index) {
     if (index != selectedIndex) {
       if (index == 0) {
-        context.goNamed(HomeView.pageName);
+        GoRouter.of(context).push('/home');
       }
       if (index == 1) {
-        context.goNamed(AccountsListView.pageName);
+        GoRouter.of(context).push('/accounts');
       }
       if (index == 2) {
-        context.goNamed(RecipientsView.pageName);
+        GoRouter.of(context).push('/recipients');
       }
       if (index == 3) {
-        context.goNamed(TransferView.pageName);
+        GoRouter.of(context).push('/transfer');
       }
       if (index == 4) {
-        context.goNamed(SettingsView.pageName);
+        GoRouter.of(context).push('/settings');
       }
     }
   }
