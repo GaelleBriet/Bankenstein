@@ -1,5 +1,7 @@
+import 'package:bankestein/bloc/authentication_cubit.dart';
 import 'package:bankestein/widgets/Navigation_bar_top.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/Navigation_bar_bottom.dart';
 
@@ -11,20 +13,28 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: NavigationBarTop(title: 'Home', userName: userName),
+    return Scaffold(
+      appBar: const NavigationBarTop(title: 'Home', userName: userName),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Welcome $userName!',
-              style: TextStyle(
-                fontSize: 24,
-              ),
+            BlocBuilder<AuthenticationCubit, AuthenticationState>(
+              builder: (context, state) {
+                if (state is AuthenticationAuthenticated) {
+                  return Text(
+                    'Welcome ${state.name} !',
+                    style: const TextStyle(
+                      fontSize: 24,
+                    ),
+                  );
+                } else {
+                  return const Text('Welcome!');
+                }
+              },
             ),
-            SizedBox(height: 18),
-            Text(
+            const SizedBox(height: 18),
+            const Text(
                 'Use the navigation bar to go to your accounts or to transfer money.',
                 style: TextStyle(
                   fontSize: 12,
@@ -32,7 +42,7 @@ class HomeView extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: NavigationBarBottom(selectedIndex: 0),
+      bottomNavigationBar: const NavigationBarBottom(selectedIndex: 0),
     );
   }
 }

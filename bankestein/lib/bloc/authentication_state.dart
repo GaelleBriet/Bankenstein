@@ -10,8 +10,10 @@ class AuthenticationUnauthenticated extends AuthenticationState {}
 
 class AuthenticationAuthenticated extends AuthenticationState {
   final String accessToken;
+  final String name;
 
-  const AuthenticationAuthenticated({required this.accessToken});
+  const AuthenticationAuthenticated(
+      {required this.accessToken, required this.name});
 }
 
 class AuthenticationError extends AuthenticationState {
