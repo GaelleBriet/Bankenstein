@@ -15,7 +15,7 @@ class TransferView extends StatelessWidget {
       body: Center(
         child: Text('Transfer'),
       ),
-      bottomNavigationBar: NavigationBarBottom(selectedIndex: 3),
+      bottomNavigationBar: const NavigationBarBottom(selectedIndex: 3),
     );
   }
 }

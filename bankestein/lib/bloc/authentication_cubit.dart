@@ -9,7 +9,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   AuthenticationCubit() : super(AuthenticationUnknown());
 
-  Future<void> login(String email, String password, AccountCubit accountCubit) async {
+  Future<void> login(
+      String email, String password, AccountCubit accountCubit) async {
     try {
       final accessToken = await AuthenticationDataSource.login(
         email: email,

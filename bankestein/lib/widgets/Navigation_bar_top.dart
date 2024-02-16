@@ -41,11 +41,14 @@ class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
             BlocBuilder<AuthenticationCubit, AuthenticationState>(
               builder: (context, state) {
                 if (state is AuthenticationAuthenticated) {
-                  return Text(
-                    state.name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+                  return TextButton(
+                    onPressed: () { GoRouter.of(context).go('/settings'); },
+                    child: Text(
+                      state.name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
                     ),
                   );
                 } else {
@@ -59,7 +62,7 @@ class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
                 color: Colors.white,
               ),
               onPressed: () {
-                // Logique pour 'Mon compte'
+                GoRouter.of(context).go('/settings');
               },
             ),
           ],

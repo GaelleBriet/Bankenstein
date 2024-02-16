@@ -25,7 +25,8 @@ abstract class AccountDataSource {
           responseBody.map((e) => Account.fromJson(e)).toList();
       return accounts;
     } else {
-      throw Exception('Failed to load accounts with status code: ${response.statusCode} and body: ${response.body}');
+      throw Exception(
+          'Failed to load accounts with status code: ${response.statusCode} and body: ${response.body}');
     }
   }
 }
