@@ -22,7 +22,7 @@ abstract class AppRouter {
             path: '/login',
             name: LoginView.pageName,
             // builder: (context, state) => const LoginView(),
-            pageBuilder: (context, state) =>  NoTransitionPage(
+            pageBuilder: (context, state) => NoTransitionPage(
               child: LoginView(),
             ),
           ),
