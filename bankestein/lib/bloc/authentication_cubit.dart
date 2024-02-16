@@ -9,11 +9,13 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   Future<void> login(String email, String password) async {
     try {
-      String accessToken = await AuthenticationDataSource.login(
+      final accessToken = await AuthenticationDataSource.login(
         email: email,
         password: password,
       );
-      emit(AuthenticationAuthenticated(accessToken: accessToken));
+      final username = await AuthenticationDataSource.getUserInfo(accessToken);
+      emit(AuthenticationAuthenticated(
+          accessToken: accessToken, name: username));
     } catch (e) {
       emit(AuthenticationError('Failed to login'));
     }
