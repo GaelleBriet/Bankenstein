@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -15,7 +16,14 @@ class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
           Icons.arrow_back,
           color: Colors.white,
         ),
-        onPressed: () => Navigator.of(context).pop(),
+        onPressed: () {
+          GoRouter.of(context).go('/home');
+        // if (Navigator.of(context).canPop())
+          // {
+          //   Navigator.of(context).pop();
+          //   // todo : trouver pourquoi ça ne marche pas
+          // }
+        },
       ) : null,
       title: Text(
           title,
