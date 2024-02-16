@@ -38,7 +38,9 @@ class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
               builder: (context, state) {
                 if (state is AuthenticationAuthenticated) {
                   return TextButton(
-                    onPressed: () { GoRouter.of(context).go('/settings'); },
+                    onPressed: () {
+                      GoRouter.of(context).go('/settings');
+                    },
                     child: Text(
                       state.name,
                       style: const TextStyle(
