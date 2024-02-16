@@ -10,6 +10,13 @@ class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      leading: title != 'Home' ? IconButton(
+        icon: const Icon(
+          Icons.arrow_back,
+          color: Colors.white,
+        ),
+        onPressed: () => Navigator.of(context).pop(),
+      ) : null,
       title: Text(
           title,
           style: const TextStyle(

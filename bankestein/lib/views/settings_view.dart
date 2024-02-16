@@ -13,17 +13,14 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsCubit = context.watch<SettingCubit>();
     return Scaffold(
       appBar: const NavigationBarTop(title: 'Settings', userName: userName),
       body: Center(
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).primaryColor,
-            foregroundColor: Colors.white,
-          ),
-          child: const Text('Toggle Theme'),
-          onPressed: () {
-            final settingsCubit = context.read<SettingCubit>();
+        child: CheckboxListTile(
+          title: const Text('Activate dark theme '),
+          value: settingsCubit.state.brightness == Brightness.dark,
+          onChanged: (bool? value) {
             settingsCubit.toggleTheme();
           },
         ),
