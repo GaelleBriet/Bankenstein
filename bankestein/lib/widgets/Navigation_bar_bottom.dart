@@ -1,3 +1,4 @@
+import 'package:bankestein/views/home_view.dart';
 import 'package:bankestein/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,9 @@ class NavigationBarBottom extends StatelessWidget {
 
   void onTap(BuildContext context, int index) {
     if (index != selectedIndex) {
+      if (index == 0) {
+        context.goNamed(HomeView.pageName);
+      }
       if (index == 4) {
         context.goNamed(SettingsView.pageName);
       }
