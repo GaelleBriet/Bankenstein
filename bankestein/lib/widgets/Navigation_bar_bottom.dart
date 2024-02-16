@@ -1,3 +1,4 @@
+import 'package:bankestein/views/accounts_list_view.dart';
 import 'package:bankestein/views/home_view.dart';
 import 'package:bankestein/views/settings_view.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../bloc/settings_cubit.dart';
 
 class NavigationBarBottom extends StatelessWidget {
-  const NavigationBarBottom({super.key, required this.selectedIndex});
+   const NavigationBarBottom({super.key, required this.selectedIndex});
 
   final int selectedIndex;
 
@@ -15,6 +16,9 @@ class NavigationBarBottom extends StatelessWidget {
     if (index != selectedIndex) {
       if (index == 0) {
         context.goNamed(HomeView.pageName);
+      }
+      if (index == 1) {
+        context.goNamed(AccountsListView.pageName);
       }
       if (index == 4) {
         context.goNamed(SettingsView.pageName);
