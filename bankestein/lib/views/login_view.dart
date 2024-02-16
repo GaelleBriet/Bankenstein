@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bankestein/bloc/authentication_cubit.dart';
 
 class LoginView extends StatelessWidget {
-   LoginView({super.key});
+  LoginView({super.key});
 
   static const String pageName = 'login';
 
@@ -69,7 +69,8 @@ class LoginView extends StatelessWidget {
                 // Logique de connexion
                 String email = emailController.text.trim();
                 String password = passwordController.text.trim();
-                print('Login button pressed with email: $email and password: $password');
+                print(
+                    'Login button pressed with email: $email and password: $password');
                 context.read<AuthenticationCubit>().login(email, password);
               },
               child: const Text('Login'),
