@@ -1,3 +1,4 @@
+import 'package:bankestein/bloc/account_cubit.dart';
 import 'package:bankestein/bloc/authentication_cubit.dart';
 import 'package:bankestein/bloc/settings_cubit.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,10 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider<AuthenticationCubit>(
           create: (context) => AuthenticationCubit(),
+        ),
+        BlocProvider<AccountCubit>(
+          create: (context) =>
+              AccountCubit(context.read<AuthenticationCubit>()),
         ),
       ],
       child: BlocBuilder<SettingCubit, ThemeData>(
