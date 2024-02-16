@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/account_cubit.dart';
 import '../widgets/Navigation_bar_bottom.dart';
@@ -37,6 +38,9 @@ class AccountsListView extends StatelessWidget {
                       Text("${balanceInEuros.toStringAsFixed(2)}€"),
                     ],
                   ),
+                  onTap: () {
+                    GoRouter.of(context).push('/accounts/${account.id}');
+                  },
                 ),
               );
             },
