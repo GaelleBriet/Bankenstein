@@ -1,10 +1,10 @@
-import 'package:bankestein/bloc/account_cubit.dart';
 import 'package:bankestein/bloc/authentication_cubit.dart';
 import 'package:bankestein/bloc/settings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'bloc/account_cubit.dart';
 import 'core/app_router.dart';
 
 void main() {
