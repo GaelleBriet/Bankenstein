@@ -37,4 +37,14 @@ class AccountCubit extends Cubit<AccountState> {
       emit(AccountError(e.toString()));
     }
   }
+
+  Future<void> getAccount(String accessToken, int id) async {
+    try {
+      emit(AccountLoading());
+      final account = await AccountDataSource.getAccount(accessToken, id);
+      emit(AccountLoaded([account]));
+    } catch (e) {
+      emit(AccountError(e.toString()));
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:bankestein/bloc/authentication_cubit.dart';
+import 'package:bankestein/views/account_view.dart';
 import 'package:bankestein/views/accounts_list_view.dart';
 import 'package:bankestein/views/recipient_view.dart';
 import 'package:bankestein/views/settings_view.dart';
@@ -51,6 +52,18 @@ abstract class AppRouter {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: AccountsListView(),
             ),
+          ),
+          GoRoute(
+            path: '/accounts/:id',
+            name: AccountView.pageName,
+            pageBuilder: (context, state) {
+              final id = state.pathParameters['id'];
+              return NoTransitionPage(
+                child: AccountView(
+                  id: int.parse(id!),
+                ),
+              );
+            }
           ),
           GoRoute(
             path: '/recipients',
