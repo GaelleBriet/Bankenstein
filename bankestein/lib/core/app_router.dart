@@ -54,17 +54,16 @@ abstract class AppRouter {
             ),
           ),
           GoRoute(
-            path: '/accounts/:id',
-            name: AccountView.pageName,
-            pageBuilder: (context, state) {
-              final id = state.pathParameters['id'];
-              return NoTransitionPage(
-                child: AccountView(
-                  id: int.parse(id!),
-                ),
-              );
-            }
-          ),
+              path: '/accounts/:id',
+              name: AccountView.pageName,
+              pageBuilder: (context, state) {
+                final id = state.pathParameters['id'];
+                return NoTransitionPage(
+                  child: AccountView(
+                    id: int.parse(id!),
+                  ),
+                );
+              }),
           GoRoute(
             path: '/recipients',
             name: RecipientsView.pageName,

@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/account.dart';
+import '../models/transaction.dart';
 
 abstract class AccountDataSource {
   static const baseUrl = 'http://192.168.1.32:8000';
 
   static Future<List<Account>> getAccounts(String accessToken) async {
-
     final response = await http.get(
       Uri.parse('$baseUrl/api/me/accounts'),
       headers: <String, String>{
@@ -26,8 +26,7 @@ abstract class AccountDataSource {
     }
   }
 
-  static Future<Account>getAccount(String accessToken, int id) async {
-
+  static Future<Account> getAccount(String accessToken, int id) async {
     final response = await http.get(
       Uri.parse('$baseUrl/api/me/accounts/$id'),
       headers: <String, String>{
@@ -38,6 +37,32 @@ abstract class AccountDataSource {
 
     if (response.statusCode == 200) {
       return Account.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(
+          'Failed to load account with status code: ${response.statusCode} and body: ${response.body}');
+    }
+  }
+
+  static Future<Account> getAccountTransactions(
+      String accessToken, int id) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/api/me/accounts/$id/transactions'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $accessToken',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // return Account.fromJson(jsonDecode(response.body));
+      List<Transaction> transactions = (jsonDecode(response.body) as List)
+          .map((i) => Transaction.fromJson(i))
+          .toList();
+
+      Account account = await getAccount(accessToken, id);
+
+      account.transactions = transactions;
+      return account;
     } else {
       throw Exception(
           'Failed to load account with status code: ${response.statusCode} and body: ${response.body}');

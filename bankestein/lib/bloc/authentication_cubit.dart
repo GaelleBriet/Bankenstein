@@ -6,7 +6,6 @@ import 'account_cubit.dart';
 part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
-
   AuthenticationCubit() : super(AuthenticationUnknown());
 
   Future<void> login(
