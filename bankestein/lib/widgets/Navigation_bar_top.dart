@@ -18,12 +18,8 @@ class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
                 color: Colors.white,
               ),
               onPressed: () {
-                GoRouter.of(context).go('/home');
-                // if (Navigator.of(context).canPop())
-                // {
-                //   Navigator.of(context).pop();
-                //   // todo : trouver pourquoi ça ne marche pas
-                // }
+                // GoRouter.of(context).go('/home');
+                GoRouter.of(context).pop();
               },
             )
           : null,
@@ -62,7 +58,7 @@ class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
                 color: Colors.white,
               ),
               onPressed: () {
-                GoRouter.of(context).go('/settings');
+                GoRouter.of(context).push('/settings');
               },
             ),
           ],
