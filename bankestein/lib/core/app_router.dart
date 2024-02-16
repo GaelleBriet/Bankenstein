@@ -1,4 +1,5 @@
 import 'package:bankestein/bloc/authentication_cubit.dart';
+import 'package:bankestein/views/accounts_list_view.dart';
 import 'package:bankestein/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +42,14 @@ abstract class AppRouter {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: SettingsView(),
             ),
-          )
+          ),
+          GoRoute(
+            path: '/accounts',
+            name: AccountsListView.pageName,
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: AccountsListView(),
+            ),
+          ),
         ],
         refreshListenable: GoRouterRefreshStream(
           context.read<AuthenticationCubit>().stream,
