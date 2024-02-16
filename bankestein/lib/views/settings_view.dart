@@ -10,13 +10,12 @@ class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
 
   static const String pageName = 'settings';
-  static const String userName = 'John Doe';
 
   @override
   Widget build(BuildContext context) {
     final settingsCubit = context.watch<SettingCubit>();
     return Scaffold(
-      appBar: const NavigationBarTop(title: 'Settings', userName: userName),
+      appBar: const NavigationBarTop(title: 'Settings'),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Center(

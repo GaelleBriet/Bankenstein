@@ -5,10 +5,9 @@ import 'package:go_router/go_router.dart';
 
 class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final String userName;
 
   const NavigationBarTop(
-      {super.key, required this.title, required this.userName});
+      {super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {

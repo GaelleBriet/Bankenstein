@@ -9,12 +9,11 @@ class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   static const String pageName = 'home';
-  static const String userName = 'John Doe';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const NavigationBarTop(title: 'Home', userName: userName),
+      appBar: const NavigationBarTop(title: 'Home'),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
