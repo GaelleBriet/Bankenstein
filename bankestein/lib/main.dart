@@ -27,6 +27,11 @@ class MainApp extends StatelessWidget {
             colorScheme: const ColorScheme.light(
               primary: Color(0xFF711CCC),
             ),
+            // bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            //   selectedItemColor:  Colors.white,
+            //   unselectedItemColor: Colors.white,
+            //   backgroundColor: Color(0xFF711CCC),
+            // ),
             useMaterial3: false,
           ),
           routerConfig: AppRouter.routerOf(context),
