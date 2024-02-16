@@ -32,7 +32,7 @@ class HomeView extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: NavigationBarBottom(),
+      bottomNavigationBar: NavigationBarBottom(selectedIndex: 0),
     );
   }
 }

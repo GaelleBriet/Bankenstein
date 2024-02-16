@@ -10,7 +10,13 @@ class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title),
+      title: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+          ),
+      ),
       actions: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -23,7 +29,10 @@ class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.account_circle),
+              icon: const Icon(
+                  Icons.account_circle,
+                  color: Colors.white,
+              ),
               onPressed: () {
                 // Logique pour 'Mon compte'
               },
@@ -31,6 +40,7 @@ class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
       ],
+      backgroundColor: Theme.of(context).primaryColor,
     );
   }
 
