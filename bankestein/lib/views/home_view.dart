@@ -1,9 +1,9 @@
 import 'package:bankestein/widgets/Navigation_bar_top.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/Navigation_bar_bottom.dart';
+
 class HomeView extends StatelessWidget {
-
-
   const HomeView({super.key});
 
   static const String pageName = 'home';
@@ -32,6 +32,7 @@ class HomeView extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: NavigationBarBottom(),
     );
   }
 }

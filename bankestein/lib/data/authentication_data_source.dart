@@ -5,7 +5,8 @@ import 'dart:convert';
 
 abstract class AuthenticationDataSource {
   // static const baseUrl = 'http://localhost:3000';
-  static const baseUrl = 'http://10.0.2.2:8000';
+  // static const baseUrl = 'http://10.0.2.2:8000';
+  static const baseUrl = 'http://192.168.1.32:8000';
 
   static final StreamController<String?> _authController =
       StreamController<String?>.broadcast();
