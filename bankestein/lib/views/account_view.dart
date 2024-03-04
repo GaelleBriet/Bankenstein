@@ -32,31 +32,64 @@ class AccountView extends StatelessWidget {
           if (state is AccountLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is AccountLoaded) {
+            final balanceInEuros = state.accounts[0].balance / 100;
             return Column(
               children: [
+                Container(
+                  height: 50,
+                  width: double.infinity,
+                  color: Colors.black,
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Row(
+                        children: [
+                          Icon(
+                            Icons.download,
+                            color: Color(0xFF711CCC),
+                          ),
+                          SizedBox(width: 8.0),
+                          Text(
+                            'GetRIB',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        'Total Balance: ${balanceInEuros.toStringAsFixed(2)}€',
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                  'Last transactions',
-                  style: TextStyle(fontSize: 24,
-                  fontWeight: FontWeight.w400),
+                    'Last transactions',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
                   ),
                 ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: state.accounts[0].transactions?.length,
-                  itemBuilder: (context, index) {
-                    final transaction = state.accounts[0].transactions?[index];
-                    final balanceInEuros = transaction!.amount / 100;
-                    return ListTile(
-                      title: Text(transaction!.name),
-                      subtitle: Text(DateFormat('dd/MM/yyyy').format(DateTime.parse(transaction!.date))),
-                      trailing: Text("${balanceInEuros.toStringAsFixed(2)}€"),
-                    );
-                  },
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: state.accounts[0].transactions?.length,
+                    itemBuilder: (context, index) {
+                      final transaction =
+                          state.accounts[0].transactions?[index];
+                      final balanceInEuros = transaction!.amount / 100;
+                      return ListTile(
+                        title: Text(transaction!.name),
+                        subtitle: Text(DateFormat('dd/MM/yyyy')
+                            .format(DateTime.parse(transaction!.date))),
+                        trailing:
+                            Text("${balanceInEuros.toStringAsFixed(2)} €"),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
             );
           } else if (state is AccountError) {
             return Center(child: Text(state.message));

@@ -35,7 +35,7 @@ class AccountsListView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(account.name),
-                      Text("${balanceInEuros.toStringAsFixed(2)}€"),
+                      Text("${balanceInEuros.toStringAsFixed(2)} €"),
                     ],
                   ),
                   onTap: () {
