@@ -58,8 +58,9 @@ abstract class AppRouter {
               final authenticationCubit = context.read<AuthenticationCubit>();
               String? accessToken;
               if (authenticationCubit.state is AuthenticationAuthenticated) {
-                accessToken = (authenticationCubit.state as AuthenticationAuthenticated)
-                    .accessToken;
+                accessToken =
+                    (authenticationCubit.state as AuthenticationAuthenticated)
+                        .accessToken;
               }
               accountCubit.getAccounts(accessToken!);
               return const NoTransitionPage(

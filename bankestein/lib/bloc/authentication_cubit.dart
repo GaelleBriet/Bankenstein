@@ -15,7 +15,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         email: email,
         password: password,
       );
-      print('Access Token: $accessToken');
       final username = await AuthenticationDataSource.getUserInfo(accessToken);
       emit(AuthenticationAuthenticated(
           accessToken: accessToken, name: username));
