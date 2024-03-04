@@ -83,8 +83,13 @@ class AccountView extends StatelessWidget {
                         title: Text(transaction!.name),
                         subtitle: Text(DateFormat('dd/MM/yyyy')
                             .format(DateTime.parse(transaction!.date))),
-                        trailing:
-                            Text("${balanceInEuros.toStringAsFixed(2)} €"),
+                        trailing: Text(
+                          "${balanceInEuros.toStringAsFixed(2)} €",
+                          style: TextStyle(
+                            color:
+                                balanceInEuros >= 0 ? Colors.green : Colors.red,
+                          ),
+                        ),
                       );
                     },
                   ),
