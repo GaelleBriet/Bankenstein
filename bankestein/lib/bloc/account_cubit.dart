@@ -12,11 +12,11 @@ class AccountCubit extends Cubit<AccountState> {
   StreamSubscription? _authSubscription;
 
   AccountCubit(this.authCubit) : super(AccountInitial()) {
-    _authSubscription = authCubit.stream.listen((state) {
-      if (state is AuthenticationAuthenticated) {
-        getAccounts(state.accessToken);
-      }
-    });
+    // _authSubscription = authCubit.stream.listen((state) {
+    //   if (state is AuthenticationAuthenticated) {
+    //     getAccounts(state.accessToken);
+    //   }
+    // });
   }
 
   @override

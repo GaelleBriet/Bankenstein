@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../bloc/account_cubit.dart';
+import '../bloc/authentication_cubit.dart';
 import '../widgets/Navigation_bar_bottom.dart';
 import '../widgets/Navigation_bar_top.dart';
 
@@ -13,6 +14,15 @@ class AccountsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final accountCubit = context.read<AccountCubit>();
+    final authenticationCubit = context.read<AuthenticationCubit>();
+    String? accessToken;
+    if (authenticationCubit.state is AuthenticationAuthenticated) {
+      accessToken = (authenticationCubit.state as AuthenticationAuthenticated)
+          .accessToken;
+    }
+    accountCubit.getAccounts(accessToken!);
+
     return Scaffold(
       appBar: const NavigationBarTop(title: 'Accounts'),
       body: BlocBuilder<AccountCubit, AccountState>(builder: (context, state) {
