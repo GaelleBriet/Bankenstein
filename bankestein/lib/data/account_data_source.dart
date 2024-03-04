@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/account.dart';
 import '../models/transaction.dart';
+import '../services/transaction_service.dart';
 
 abstract class AccountDataSource {
   static const baseUrl = 'http://192.168.1.32:8000';
@@ -58,6 +59,8 @@ abstract class AccountDataSource {
       List<Transaction> transactions = (jsonDecode(response.body) as List)
           .map((i) => Transaction.fromJson(i))
           .toList();
+
+      transactions = TransactionService.sortTransactions(transactions, id);
 
       Account account = await getAccount(accessToken, id);
 
