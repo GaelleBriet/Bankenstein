@@ -73,9 +73,9 @@ abstract class FileDataSource {
 
     final Directory? directory = await getDownloadsDirectory();
     final String? path = directory?.path;
-    print(path);
+
     final file = File('$path/rib.pdf');
-    print(file.path);
+
     await file.writeAsBytes(await pdf.save());
 
     if (await file.exists()) {

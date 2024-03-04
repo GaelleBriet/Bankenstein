@@ -7,12 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../bloc/account_cubit.dart';
 import '../bloc/settings_cubit.dart';
 
 class NavigationBarBottom extends StatelessWidget {
-  const NavigationBarBottom({super.key, required this.selectedIndex});
+  const NavigationBarBottom({super.key, this.selectedIndex});
 
-  final int selectedIndex;
+  final int? selectedIndex;
 
   void onTap(BuildContext context, int index) {
     if (index != selectedIndex) {
@@ -78,7 +79,7 @@ class NavigationBarBottom extends StatelessWidget {
           label: '',
         ),
       ],
-      currentIndex: selectedIndex,
+      currentIndex: selectedIndex ?? 0,
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white,
