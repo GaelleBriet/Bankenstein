@@ -94,7 +94,7 @@ class LoginView extends StatelessWidget {
                       'Login button pressed with email: $email and password: $password');
                   context
                       .read<AuthenticationCubit>()
-                      .login(email, password, context.read<AccountCubit>());
+                      .login(email, password);
                 },
                 child: const Text('Login'),
               ),

@@ -9,7 +9,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(AuthenticationUnknown());
 
   Future<void> login(
-      String email, String password, AccountCubit accountCubit) async {
+      String email, String password) async {
     try {
       final accessToken = await AuthenticationDataSource.login(
         email: email,
@@ -18,7 +18,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       final username = await AuthenticationDataSource.getUserInfo(accessToken);
       emit(AuthenticationAuthenticated(
           accessToken: accessToken, name: username));
-      accountCubit.getAccounts(accessToken);
+      // accountCubit.getAccounts(accessToken);
     } catch (e) {
       emit(AuthenticationError('Failed to login'));
     }

@@ -10,6 +10,7 @@ part 'account_state.dart';
 class AccountCubit extends Cubit<AccountState> {
   final AuthenticationCubit authCubit;
   StreamSubscription? _authSubscription;
+  String? accessToken;
 
   AccountCubit(this.authCubit) : super(AccountInitial()) {
     // _authSubscription = authCubit.stream.listen((state) {
@@ -26,36 +27,44 @@ class AccountCubit extends Cubit<AccountState> {
   }
 
   Future<void> getAccounts(String accessToken) async {
+    this.accessToken = accessToken;
     try {
       emit(AccountLoading());
       final accounts = await AccountDataSource.getAccounts(accessToken);
-      emit(AccountLoaded(accounts));
+      print('Accounts : $accounts');
+      emit(AccountsLoaded(accounts));
     } catch (e) {
       emit(AccountError(e.toString()));
     }
+
   }
 
   Future<void> getAccount(String accessToken, int id) async {
+    this.accessToken = accessToken;
     try {
       emit(AccountLoading());
       final account = await AccountDataSource.getAccount(accessToken, id);
-      emit(AccountLoaded([account]));
+      emit(AccountLoaded(account));
     } catch (e) {
       emit(AccountError(e.toString()));
     }
   }
 
   Future<Account> getAccountIban(String accessToken, int id) async {
+    this.accessToken = accessToken;
     try {
       emit(AccountLoading());
       var account = await AccountDataSource.getAccount(accessToken, id);
-      // var accountIban = account.iban;
-      // var accountName = account.name;
-      emit(AccountLoaded([account]));
+      emit(AccountLoaded(account));
       return account;
     } catch (e) {
       emit(AccountError(e.toString()));
       throw Exception('Failed to get account IBAN');
     }
+  }
+
+  void reset() {
+    print('Resetting account state');
+    emit(AccountReset());
   }
 }
