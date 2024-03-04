@@ -1,7 +1,8 @@
 import 'package:bankestein/models/transaction.dart';
 
 abstract class TransactionService {
-  static List<Transaction> sortTransactions(List<Transaction> transactions, int accountId) {
+  static List<Transaction> sortTransactions(
+      List<Transaction> transactions, int accountId) {
     return transactions.map((transaction) {
       if (transaction.toAccountId == accountId) {
         // Si le compte est le bénéficiaire de la transaction, le montant est positif
