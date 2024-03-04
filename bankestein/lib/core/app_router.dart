@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:bankestein/views/login_view.dart';
 
+import '../bloc/account_cubit.dart';
 import '../views/home_view.dart';
 import 'go_router_fresh_stream.dart';
 
@@ -49,9 +50,22 @@ abstract class AppRouter {
           GoRoute(
             path: '/accounts',
             name: AccountsListView.pageName,
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: AccountsListView(),
-            ),
+            // pageBuilder: (context, state) => const NoTransitionPage(
+            //   child: AccountsListView(),
+            // ),
+            pageBuilder: (context, state) {
+              final accountCubit = context.read<AccountCubit>();
+              final authenticationCubit = context.read<AuthenticationCubit>();
+              String? accessToken;
+              if (authenticationCubit.state is AuthenticationAuthenticated) {
+                accessToken = (authenticationCubit.state as AuthenticationAuthenticated)
+                    .accessToken;
+              }
+              accountCubit.getAccounts(accessToken!);
+              return const NoTransitionPage(
+                child: AccountsListView(),
+              );
+            },
           ),
           GoRoute(
               path: '/accounts/:id',

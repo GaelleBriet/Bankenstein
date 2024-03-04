@@ -16,7 +16,7 @@ class AccountsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accountCubit = context.read<AccountCubit>();
+    // final accountCubit = context.read<AccountCubit>();
     final authenticationCubit = context.read<AuthenticationCubit>();
     final transactionCubit = context.read<TransactionCubit>();
     String? accessToken;
@@ -24,7 +24,7 @@ class AccountsListView extends StatelessWidget {
       accessToken = (authenticationCubit.state as AuthenticationAuthenticated)
           .accessToken;
     }
-    accountCubit.getAccounts(accessToken!);
+    // accountCubit.getAccounts(accessToken!);
 
     return Scaffold(
       appBar: const NavigationBarTop(title: 'Accounts'),
