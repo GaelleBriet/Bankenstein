@@ -44,31 +44,31 @@ abstract class AccountDataSource {
     }
   }
 
-  static Future<Account> getAccountTransactions(
-      String accessToken, int id) async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/api/me/accounts/$id/transactions'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $accessToken',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      // return Account.fromJson(jsonDecode(response.body));
-      List<Transaction> transactions = (jsonDecode(response.body) as List)
-          .map((i) => Transaction.fromJson(i))
-          .toList();
-
-      transactions = TransactionService.sortTransactions(transactions, id);
-
-      Account account = await getAccount(accessToken, id);
-
-      account.transactions = transactions;
-      return account;
-    } else {
-      throw Exception(
-          'Failed to load account with status code: ${response.statusCode} and body: ${response.body}');
-    }
-  }
+  // static Future<Account> getAccountTransactions(
+  //     String accessToken, int id) async {
+  //   final response = await http.get(
+  //     Uri.parse('$baseUrl/api/me/accounts/$id/transactions'),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //       'Authorization': 'Bearer $accessToken',
+  //     },
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     // return Account.fromJson(jsonDecode(response.body));
+  //     List<Transaction> transactions = (jsonDecode(response.body) as List)
+  //         .map((i) => Transaction.fromJson(i))
+  //         .toList();
+  //
+  //     transactions = TransactionService.sortTransactions(transactions, id);
+  //
+  //     Account account = await getAccount(accessToken, id);
+  //
+  //     account.transactions = transactions;
+  //     return account;
+  //   } else {
+  //     throw Exception(
+  //         'Failed to load account with status code: ${response.statusCode} and body: ${response.body}');
+  //   }
+  // }
 }

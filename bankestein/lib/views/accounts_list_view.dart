@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../bloc/account_cubit.dart';
 import '../bloc/authentication_cubit.dart';
+import '../bloc/transaction_cubit.dart';
+
 import '../widgets/Navigation_bar_bottom.dart';
 import '../widgets/Navigation_bar_top.dart';
 
@@ -16,6 +18,7 @@ class AccountsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final accountCubit = context.read<AccountCubit>();
     final authenticationCubit = context.read<AuthenticationCubit>();
+    final transactionCubit = context.read<TransactionCubit>();
     String? accessToken;
     if (authenticationCubit.state is AuthenticationAuthenticated) {
       accessToken = (authenticationCubit.state as AuthenticationAuthenticated)
@@ -49,6 +52,7 @@ class AccountsListView extends StatelessWidget {
                     ],
                   ),
                   onTap: () {
+                    transactionCubit.getAccountTransactions(accessToken!, account.id);
                     GoRouter.of(context).push('/accounts/${account.id}');
                   },
                 ),

@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'bloc/account_cubit.dart';
+import 'bloc/transaction_cubit.dart';
+
 import 'core/app_router.dart';
 
 void main() {
@@ -31,6 +33,10 @@ class MainApp extends StatelessWidget {
         BlocProvider<AccountCubit>(
           create: (context) =>
               AccountCubit(context.read<AuthenticationCubit>()),
+        ),
+        BlocProvider<TransactionCubit>(
+          create: (context) =>
+              TransactionCubit(context.read<AuthenticationCubit>()),
         ),
       ],
       child: BlocBuilder<SettingCubit, ThemeData>(
