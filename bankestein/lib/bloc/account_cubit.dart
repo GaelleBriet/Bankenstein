@@ -28,12 +28,9 @@ class AccountCubit extends Cubit<AccountState> {
   Future<void> getAccounts(String accessToken) async {
     try {
       emit(AccountLoading());
-      print('Access Token: $accessToken');
       final accounts = await AccountDataSource.getAccounts(accessToken);
-      print('accounts: $accounts');
       emit(AccountLoaded(accounts));
     } catch (e) {
-      print('error: $e');
       emit(AccountError(e.toString()));
     }
   }
@@ -48,14 +45,17 @@ class AccountCubit extends Cubit<AccountState> {
     }
   }
 
-  // Future<void> getAccountTransactions(String accessToken, int id) async {
-  //   try {
-  //     emit(AccountLoading());
-  //     final account =
-  //         await AccountDataSource.getAccountTransactions(accessToken, id);
-  //     emit(AccountLoaded([account]));
-  //   } catch (e) {
-  //     emit(AccountError(e.toString()));
-  //   }
-  // }
+  Future<Account> getAccountIban(String accessToken, int id) async {
+    try {
+      emit(AccountLoading());
+      var account = await AccountDataSource.getAccount(accessToken, id);
+      // var accountIban = account.iban;
+      // var accountName = account.name;
+      emit(AccountLoaded([account]));
+      return account;
+    } catch (e) {
+      emit(AccountError(e.toString()));
+      throw Exception('Failed to get account IBAN');
+    }
+  }
 }

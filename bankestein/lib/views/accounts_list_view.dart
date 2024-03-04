@@ -52,7 +52,8 @@ class AccountsListView extends StatelessWidget {
                     ],
                   ),
                   onTap: () {
-                    transactionCubit.getAccountTransactions(accessToken!, account.id);
+                    transactionCubit.getAccountTransactions(
+                        accessToken!, account.id);
                     GoRouter.of(context).push('/accounts/${account.id}');
                   },
                 ),
