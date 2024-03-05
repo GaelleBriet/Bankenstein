@@ -8,7 +8,6 @@ import '../bloc/recipient_cubit.dart';
 import '../widgets/Navigation_bar_bottom.dart';
 import '../widgets/Navigation_bar_top.dart';
 
-
 class RecipientsView extends StatelessWidget {
   const RecipientsView({Key? key}) : super(key: key);
 
@@ -31,33 +30,34 @@ class RecipientsView extends StatelessWidget {
         }
       },
       child: Scaffold(
-      appBar: const NavigationBarTop(title: 'Recipients'),
-      body: BlocBuilder<RecipientCubit, RecipientState>(
-        builder: (context, state) {
-          if (state is RecipientLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is RecipientLoaded) {
-            return RecipientList(
-              recipients: state.recipients,
-              recipientCubit: recipientCubit,
-              authState: authState,
-            );
-          } else if (state is RecipientError) {
-            return RecipientList(
-              recipients: state.recipients,
-              recipientCubit: recipientCubit,
-              authState: authState,
-            );
-          } else {
-            return const Center(
-              child: Text('No recipients found ... '),
-            );
-          }
-        },
+        appBar: const NavigationBarTop(title: 'Recipients'),
+        body: BlocBuilder<RecipientCubit, RecipientState>(
+          builder: (context, state) {
+            if (state is RecipientLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is RecipientLoaded) {
+              return RecipientList(
+                recipients: state.recipients,
+                recipientCubit: recipientCubit,
+                authState: authState,
+              );
+            } else if (state is RecipientError) {
+              return RecipientList(
+                recipients: state.recipients,
+                recipientCubit: recipientCubit,
+                authState: authState,
+              );
+            } else {
+              return const Center(
+                child: Text('No recipients found ... '),
+              );
+            }
+          },
+        ),
+        bottomNavigationBar: const NavigationBarBottom(selectedIndex: 2),
       ),
-      bottomNavigationBar: const NavigationBarBottom(selectedIndex: 2),
-    ),);
+    );
   }
 }
