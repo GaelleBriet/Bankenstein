@@ -57,7 +57,7 @@ class RecipientsView extends StatelessWidget {
           }
         },
       ),
-      bottomNavigationBar: const NavigationBarBottom(selectedIndex: 3),
+      bottomNavigationBar: const NavigationBarBottom(selectedIndex: 2),
     ),);
   }
 }

@@ -28,7 +28,6 @@ class RecipientCubit extends Cubit<RecipientState> {
   void getRecipients(String accessToken) async {
     try {
       emit(RecipientLoading());
-
       final recipients = await RecipientService.getRecipients(accessToken);
       emit(RecipientLoaded(recipients));
     } catch (e) {
@@ -44,7 +43,6 @@ class RecipientCubit extends Cubit<RecipientState> {
           await RecipientService.getRecipients(accessToken);
       emit(RecipientLoaded(updatedRecipients));
     } catch (e) {
-      print("error");
       final recipients = await RecipientService.getRecipients(accessToken);
       emit(RecipientError("Failed to add recipient", recipients));
       emit(RecipientLoaded(recipients));
@@ -59,7 +57,6 @@ class RecipientCubit extends Cubit<RecipientState> {
           await RecipientService.getRecipients(accessToken);
       emit(RecipientLoaded(updatedRecipients));
     } catch (e) {
-      print("error");
       final recipients = await RecipientService.getRecipients(accessToken);
       emit(RecipientError("Failed to modify recipient", recipients));
       emit(RecipientLoaded(recipients));
@@ -74,7 +71,6 @@ class RecipientCubit extends Cubit<RecipientState> {
           await RecipientService.getRecipients(accessToken);
       emit(RecipientLoaded(updatedRecipients));
     } catch (e) {
-      print("error");
       emit(RecipientError("Failed to delete recipient: $e", []));
     }
   }

@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 abstract class RecipientService {
-  static const baseUrl = 'http://uriostegui-sam-server.eddi.cloud:8000';
+  // static const baseUrl = 'http://uriostegui-sam-server.eddi.cloud:8000';
+  static const baseUrl = 'http://192.168.1.32:8000';
 
   static Future<List<Recipient>> getRecipients(String accessToken) async {
     final response = await http.get(
@@ -38,7 +39,6 @@ abstract class RecipientService {
       );
 
       if (response.statusCode == 200) {
-        print("all good");
       } else {
         throw Exception('Failed to add recipient: ${response.statusCode}');
       }
@@ -60,7 +60,6 @@ abstract class RecipientService {
       );
 
       if (response.statusCode == 200) {
-        print("all good");
       } else {
         throw Exception('Failed to update recipient: ${response.statusCode}');
       }
