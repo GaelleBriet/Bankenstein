@@ -46,9 +46,11 @@ class HomeView extends StatelessWidget {
                   )),
               BlocBuilder<TransactionCubit, TransactionState>(
                 builder: (context, state) {
-                  final transactionCubit = BlocProvider.of<TransactionCubit>(context);
+                  final transactionCubit =
+                      BlocProvider.of<TransactionCubit>(context);
                   final userId =
-                      (authenticationCubit.state as AuthenticationAuthenticated).id;
+                      (authenticationCubit.state as AuthenticationAuthenticated)
+                          .id;
                   print('userId: $userId');
                   // if (userId != null) {
                   //   transactionCubit.getLastThreeTransactions(
