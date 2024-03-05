@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:open_file/open_file.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 
@@ -40,7 +39,7 @@ abstract class FileDataSource {
                             fontSize: 30, fontWeight: pw.FontWeight.bold),
                       ),
                       pw.Text(
-                        accountName, // Assurez-vous que cette variable est définie et accessible
+                        accountName,
                         style: const pw.TextStyle(fontSize: 30),
                       ),
                     ],
@@ -57,13 +56,12 @@ abstract class FileDataSource {
                             fontSize: 30, fontWeight: pw.FontWeight.bold),
                       ),
                       pw.Text(
-                        iban, // Assurez-vous que cette variable est définie et accessible
+                        iban,
                         style: const pw.TextStyle(fontSize: 30),
                       ),
                     ],
                   ),
                 ),
-                // Vous pouvez ajouter plus de champs ici de la même manière
               ],
             ),
           );

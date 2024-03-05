@@ -53,28 +53,6 @@ abstract class AppRouter {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: AccountsListView(),
             ),
-            // pageBuilder: (context, state) {
-            //   final accountCubit = context.read<AccountCubit>();
-            //   final authenticationCubit = context.read<AuthenticationCubit>();
-            //   String? accessToken;
-            //   if (authenticationCubit.state is AuthenticationAuthenticated) {
-            //     accessToken =
-            //         (authenticationCubit.state as AuthenticationAuthenticated)
-            //             .accessToken;
-            //   }
-            //   accountCubit.getAccounts(accessToken!);
-            //   return const NoTransitionPage(
-            //     child: AccountsListView(),
-            //   );
-
-
-              // return MaterialPage(
-              //   child: BlocProvider<AccountCubit>(
-              //     create: (context) => AccountCubit(context.read<AuthenticationCubit>()),
-              //     child: const AccountsListView(),
-              //   ),
-              // );
-            // },
           ),
           GoRoute(
               path: '/accounts/:id',

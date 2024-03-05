@@ -1,13 +1,7 @@
-import 'package:bankestein/views/accounts_list_view.dart';
-import 'package:bankestein/views/home_view.dart';
-import 'package:bankestein/views/recipient_view.dart';
-import 'package:bankestein/views/settings_view.dart';
-import 'package:bankestein/views/transfer_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../bloc/account_cubit.dart';
 import '../bloc/settings_cubit.dart';
 
 class NavigationBarBottom extends StatelessWidget {

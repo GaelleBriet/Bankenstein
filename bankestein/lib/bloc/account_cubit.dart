@@ -64,7 +64,6 @@ class AccountCubit extends Cubit<AccountState> {
   }
 
   void reset() {
-    print('Resetting account state');
     emit(AccountReset());
   }
 }

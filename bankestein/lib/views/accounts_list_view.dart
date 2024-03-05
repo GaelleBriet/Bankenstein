@@ -16,15 +16,7 @@ class AccountsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final accountCubit = context.read<AccountCubit>();
     final authenticationCubit = context.read<AuthenticationCubit>();
-
-    // String? accessToken;
-    // if (authenticationCubit.state is AuthenticationAuthenticated) {
-    //   accessToken = (authenticationCubit.state as AuthenticationAuthenticated)
-    //       .accessToken;
-    // }
-    // accountCubit.getAccounts(accessToken!);
 
     return Scaffold(
       appBar: const NavigationBarTop(title: 'Accounts'),
@@ -49,12 +41,10 @@ class AccountsListView extends StatelessWidget {
         child: BlocBuilder<AccountCubit, AccountState>(
             builder: (context, state) {
               if (state is AccountLoading) {
-                print('AccountsLoading');
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               } else if (state is AccountsLoaded) {
-                print('AccountsLoaded');
                 return ListView.builder(
                   itemCount: state.accounts.length,
                   itemBuilder: (context, index) {

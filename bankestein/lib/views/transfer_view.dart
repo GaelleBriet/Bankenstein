@@ -1,5 +1,6 @@
-import 'package:bankestein/widgets/Navigation_bar_top.dart';
 import 'package:flutter/material.dart';
+
+import 'package:bankestein/widgets/Navigation_bar_top.dart';
 
 import '../widgets/Navigation_bar_bottom.dart';
 
