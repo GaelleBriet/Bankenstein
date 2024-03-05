@@ -33,15 +33,22 @@ class SettingsView extends StatelessWidget {
               const Spacer(),
               BlocBuilder<AuthenticationCubit, AuthenticationState>(
                 builder: (context, state) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      context.read<AuthenticationCubit>().logout();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      foregroundColor: Colors.white,
+                  return SizedBox(
+                    height: 50.0,
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.read<AuthenticationCubit>().logout();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                      child: const Text('Log Out'),
                     ),
-                    child: const Text('Log Out'),
                   );
                 },
               ),
