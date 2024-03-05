@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:bankestein/widgets/Navigation_bar_top.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/account_cubit.dart';
+import '../bloc/transaction_cubit.dart';
 import '../models/account.dart';
 import '../widgets/Navigation_bar_bottom.dart';
 
@@ -14,6 +16,7 @@ class TransferView extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
+  final _transactionNameController = TextEditingController();
 
   static const String pageName = 'transfer';
 
@@ -22,6 +25,7 @@ class TransferView extends StatelessWidget {
     final authenticationCubit = context.read<AuthenticationCubit>();
 
     int? _selectedAccountId;
+    int? _destinationAccountId;
 
     return Scaffold(
       appBar: const NavigationBarTop(title: 'Transfer'),
@@ -43,6 +47,19 @@ class TransferView extends StatelessWidget {
           // BlocProvider<TransactionCubit>(
           //   create: (context) => TransactionCubit(authenticationCubit),
           // ),
+          BlocProvider<RecipientCubit>(
+            create: (context) {
+              final recipientCubit = RecipientCubit(authenticationCubit);
+              String? accessToken;
+              if (authenticationCubit.state is AuthenticationAuthenticated) {
+                accessToken =
+                    (authenticationCubit.state as AuthenticationAuthenticated)
+                        .accessToken;
+              }
+              recipientCubit.getRecipients(accessToken!);
+              return recipientCubit;
+            },
+          ),
         ],
         child: BlocBuilder<AccountCubit, AccountState>(
           builder: (context, state) {
@@ -95,30 +112,59 @@ class TransferView extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 16),
-                      DropdownButtonFormField<String>(
-                        decoration: const InputDecoration(
-                          labelText: 'To Recipient*',
-                          icon: Icon(Icons.verified_user_outlined),
-                        ),
-                        items: <String>['Benj', 'Alice', 'Company Inc.']
-                            .map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Ce champ est obligatoire';
+                      BlocBuilder<RecipientCubit, RecipientState>(
+                        builder: (context, recipientState) {
+                          if (recipientState is RecipientsLoaded) {
+                            return DropdownButtonFormField<int>(
+                              decoration: const InputDecoration(
+                                labelText: 'To Recipient*',
+                                icon: Icon(Icons.verified_user_outlined),
+                              ),
+                              // items: <String>['Benj', 'Alice', 'Company Inc.']
+                              //     .map((String value) {
+                              //   return DropdownMenuItem<String>(
+                              //     value: value,
+                              //     child: Text(value),
+                              //   );
+                              // }).toList(),
+                              items: recipientState.recipients.map((
+                                  Recipient recipient) {
+                                return DropdownMenuItem<int>(
+                                  value: recipient.id,
+                                  child: Text(recipient.name.toString()),
+                                );
+                              }).toList(),
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Ce champ est obligatoire';
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+                                 _destinationAccountId = value;
+                              },
+                            );
+                          } else if (recipientState is RecipientLoading) {
+                            return DropdownButtonFormField<String>(
+                                decoration: const InputDecoration(
+                                  labelText: 'To Recipient*',
+                                  icon: Icon(Icons.verified_user_outlined),
+                                ),
+                                items: const [],
+                                onChanged: null,
+                            );
+                          } else if (recipientState is RecipientError) {
+                            return Center(
+                              child: Text('Error: ${recipientState.message}'),
+                            );
+                          } else {
+                            return Container();
                           }
-                          return null;
-                        },
-                        onChanged: (_) {
-                          // Handle change
                         },
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
+                        controller: _transactionNameController,
                         decoration: const InputDecoration(
                           labelText: 'Transaction name',
                           icon: Icon(Icons.account_balance_wallet),
@@ -130,7 +176,9 @@ class TransferView extends StatelessWidget {
                         height: 50.0,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).primaryColor,
+                            backgroundColor: Theme
+                                .of(context)
+                                .primaryColor,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -149,25 +197,35 @@ class TransferView extends StatelessWidget {
                             } else {
                               // si le formulaire est valide
                               double amountToTransfer =
-                                  double.parse(_amountController.text);
+                              double.parse(_amountController.text);
+
+                              String transactionName = _transactionNameController.text.trim();
+
                               Account selectedAccount = state.accounts
                                   .firstWhere((account) =>
-                                      account.id == _selectedAccountId);
+                              account.id == _selectedAccountId);
+
                               String accountName = selectedAccount.name;
+
+                              Account destinationAccount = state.accounts
+                                  .firstWhere((account) => account.id == _destinationAccountId);
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                      'Transfer en cours : $amountToTransfer € de $accountName vers ...'),
+                                      'Transfer en cours : $amountToTransfer € de $accountName vers $destinationAccount'),
                                   backgroundColor: Colors.green,
                                 ),
                               );
                               _formKey.currentState!.reset();
                               _amountController.clear();
-                              // BlocProvider.of<TransactionCubit>(context).transfer(
-                              //   _selectedAccountId,
-                              //   amountToTransfer,
-                              // );
+                              GoRouter.of(context).push('/accounts');
+                              BlocProvider.of<TransactionCubit>(context).transfer(
+                                _selectedAccountId!,
+                                amountToTransfer,
+                                _destinationAccountId!,
+                                transactionName,
+                              );
                             }
                           },
                           child: const Text(
