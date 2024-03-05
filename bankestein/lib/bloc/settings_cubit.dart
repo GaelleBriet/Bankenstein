@@ -13,6 +13,7 @@ class SettingCubit extends Cubit<ThemeData> {
     emit(state.brightness == Brightness.light
         ? ThemeData.dark().copyWith(
             primaryColor: const Color(0xFF711CCC),
+            scaffoldBackgroundColor: Colors.grey[900],
             colorScheme: const ColorScheme.dark(
               primary: Color(0xFF711CCC),
             ),
