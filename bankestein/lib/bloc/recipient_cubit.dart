@@ -11,7 +11,6 @@ class RecipientCubit extends Cubit<RecipientState> {
 
   //RecipientCubit() : super(RecipientInitial());
 
-  
   RecipientCubit(this.authCubit) : super(RecipientInitial()) {
     _authSubscription = authCubit.stream.listen((state) {
       if (state is AuthenticationAuthenticated) {
@@ -30,11 +29,23 @@ class RecipientCubit extends Cubit<RecipientState> {
     try {
       emit(RecipientLoading());
 
-      final recipients =
-          await RecipientService.getRecipients(accessToken);
+      final recipients = await RecipientService.getRecipients(accessToken);
       emit(RecipientLoaded(recipients));
     } catch (e) {
       emit(RecipientError("Failed to load recipients: $e"));
+    }
+  }
+
+  void addRecipient(String accessToken, String name, String iban) async {
+    try {
+      emit(RecipientLoading());
+      await RecipientService.addRecipient(accessToken, name, iban);
+      final updatedRecipients =
+          await RecipientService.getRecipients(accessToken);
+      emit(RecipientLoaded(updatedRecipients));
+    } catch (e) {
+      print("error");
+      emit(RecipientError("Failed to add recipient"));
     }
   }
 
@@ -42,7 +53,8 @@ class RecipientCubit extends Cubit<RecipientState> {
     try {
       emit(RecipientLoading());
       await RecipientService.deleteRecipient(accessToken, recipientId);
-      final updatedRecipients = await RecipientService.getRecipients(accessToken);
+      final updatedRecipients =
+          await RecipientService.getRecipients(accessToken);
       emit(RecipientLoaded(updatedRecipients));
     } catch (e) {
       print("error");

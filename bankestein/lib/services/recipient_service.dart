@@ -25,6 +25,28 @@ abstract class RecipientService {
     }
   }
 
+  static Future<void> addRecipient(String accessToken, String name, String iban) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/me/recipients/add'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: jsonEncode(<String, dynamic>{'name': name, 'iban': iban}),
+      );
+
+      if (response.statusCode == 200) {
+        print("all good");
+      } else {
+        throw Exception('Failed to add recipient: ${response.statusCode}');
+      }
+    } catch (error) {
+      throw Exception('Error while adding recipient: $error');
+    }
+  }
+
+
   static Future<void> deleteRecipient(String accessToken, int recipientId) async {
     try {
       final response = await http.get(
