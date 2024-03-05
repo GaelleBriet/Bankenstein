@@ -150,7 +150,10 @@ class TransferView extends StatelessWidget {
                               // si le formulaire est valide
                               double amountToTransfer =
                                   double.parse(_amountController.text);
-                              String accountName = _selectedAccountId.toString();
+                              Account selectedAccount = state.accounts
+                                  .firstWhere((account) =>
+                                      account.id == _selectedAccountId);
+                              String accountName = selectedAccount.name;
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -165,8 +168,6 @@ class TransferView extends StatelessWidget {
                               //   _selectedAccountId,
                               //   amountToTransfer,
                               // );
-                              print('Selected account: $_selectedAccountId');
-                              print('Amount to transfer: $amountToTransfer');
                             }
                           },
                           child: const Text(
