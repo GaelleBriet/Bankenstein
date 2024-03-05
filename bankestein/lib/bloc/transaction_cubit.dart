@@ -46,4 +46,16 @@ class TransactionCubit extends Cubit<TransactionState> {
       emit(TransactionError(e.toString()));
     }
   }
+
+  Future<void> getLastThreeTransactions(String accessToken, int userId) async {
+    try {
+      emit(TransactionLoading());
+      print('test');
+      final transactions =
+          await TransactionDataSource.getLastThreeTransactions(accessToken, userId);
+      emit(TransactionLoaded(transactions));
+    } catch (e) {
+      emit(TransactionError(e.toString()));
+    }
+  }
 }

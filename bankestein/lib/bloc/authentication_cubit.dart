@@ -14,9 +14,11 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         email: email,
         password: password,
       );
-      final username = await AuthenticationDataSource.getUserInfo(accessToken);
+      final userInfo = await AuthenticationDataSource.getUserInfo(accessToken);
       emit(AuthenticationAuthenticated(
-          accessToken: accessToken, name: username));
+          accessToken: accessToken,
+          name: userInfo['name'],
+          id: userInfo['id']));
     } catch (e) {
       emit(AuthenticationError('Failed to login'));
     }
