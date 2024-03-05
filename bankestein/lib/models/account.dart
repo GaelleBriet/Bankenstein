@@ -17,6 +17,12 @@ class Account {
     this.transactions,
   });
 
+  @override
+  String toString() {
+    double balanceInEuros = balance / 100;
+    return '$name - $balanceInEuros €';
+  }
+
   factory Account.fromJson(Map<String, dynamic> json) {
     return Account(
       id: json['id'],
