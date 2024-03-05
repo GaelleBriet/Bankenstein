@@ -44,36 +44,6 @@ class HomeView extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                   )),
-              BlocBuilder<TransactionCubit, TransactionState>(
-                builder: (context, state) {
-                  final transactionCubit =
-                      BlocProvider.of<TransactionCubit>(context);
-                  final userId =
-                      (authenticationCubit.state as AuthenticationAuthenticated)
-                          .id;
-                  print('userId: $userId');
-                  // if (userId != null) {
-                  //   transactionCubit.getLastThreeTransactions(
-                  //       (authenticationCubit.state as AuthenticationAuthenticated)
-                  //           .accessToken,
-                  //       userId);
-                  // }
-                  if (state is TransactionLoaded) {
-                    return Column(
-                      children: state.transactions.map((transaction) {
-                        return ListTile(
-                          title: Text(transaction.name),
-                          subtitle: Text('Amount: ${transaction.amount}'),
-                        );
-                      }).toList(),
-                    );
-                  } else if (state is TransactionLoading) {
-                    return const CircularProgressIndicator();
-                  } else {
-                    return const Text('An error occurred');
-                  }
-                },
-              ),
             ],
           ),
         ),

@@ -31,7 +31,6 @@ class AccountCubit extends Cubit<AccountState> {
     try {
       emit(AccountLoading());
       final accounts = await AccountDataSource.getAccounts(accessToken);
-      print('Accounts : $accounts');
       emit(AccountsLoaded(accounts));
     } catch (e) {
       emit(AccountError(e.toString()));
