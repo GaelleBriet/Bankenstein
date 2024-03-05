@@ -31,17 +31,17 @@ class TransactionCubit extends Cubit<TransactionState> {
       int fromAccountId, double amount, int toAccountId, String name) async {
     try {
       print('transfer');
-      final destinationAccount = await AccountDataSource.getAccount(
-          (authCubit.state as AuthenticationAuthenticated).accessToken,
-          toAccountId);
+      // final destinationAccount = await AccountDataSource.getAccount(
+      //     (authCubit.state as AuthenticationAuthenticated).accessToken,
+      //     toAccountId);
       final accessToken =
           (authCubit.state as AuthenticationAuthenticated).accessToken;
       await TransactionDataSource.transfer(
           accessToken, fromAccountId, amount, toAccountId, name);
       emit(TransactionTransferSuccess(
-        amountToTransfer: amount,
-        accountName: name,
-        destinationAccount: destinationAccount,
+        // amountToTransfer: amount,
+        // accountName: name,
+        // destinationAccount: destinationAccount,
       ));
     } catch (e) {
       emit(TransactionError(e.toString()));

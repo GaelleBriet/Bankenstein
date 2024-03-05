@@ -32,6 +32,7 @@ abstract class TransactionDataSource {
 
   static Future<void> transfer(String accessToken, int fromAccountId,
       double amount, int toAccountId, String name) async {
+    print('transfer API');
     final response = await http.post(
       Uri.parse('$baseUrl/api/me/transactions/create'),
       headers: <String, String>{

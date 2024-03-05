@@ -67,13 +67,15 @@ class TransferView extends StatelessWidget {
         child: BlocListener<TransactionCubit, TransactionState>(
           listener: (context, state) {
             if (state is TransactionTransferSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                      'Transfer en cours : ${state.amountToTransfer} € de ${state.accountName} vers ${state.destinationAccount}'),
-                  backgroundColor: Colors.green,
-                ),
-              );
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //   SnackBar(
+              //     content: Text(
+              //         'Transfer en cours : ${state.amountToTransfer} € de ${state.accountName} vers ${state.destinationAccount}'),
+              //     backgroundColor: Colors.green,
+              //   ),
+              // );
+              _formKey.currentState!.reset();
+              _amountController.clear();
               GoRouter.of(context).push('/accounts');
             }
           },
@@ -105,6 +107,7 @@ class TransferView extends StatelessWidget {
                           },
                           onChanged: (value) {
                             _selectedAccountId = value;
+                            print('selectedAccountId: $_selectedAccountId');
                           },
                         ),
                         const SizedBox(height: 16),
@@ -138,7 +141,7 @@ class TransferView extends StatelessWidget {
                                 items: recipientState.recipients.map<DropdownMenuItem<int>>((
                                     Recipient recipient) {
                                   return DropdownMenuItem<int>(
-                                    value: recipient.id,
+                                    value: recipient.accountId,
                                     child: Text(recipient.name.toString()),
                                   );
                                 }).toList(),
@@ -150,6 +153,7 @@ class TransferView extends StatelessWidget {
                                 },
                                 onChanged: (value) {
                                    _destinationAccountId = value;
+                                   print('destinationAccountId: $value');
                                 },
                               );
                             } else if (recipientState is RecipientLoading) {
@@ -208,17 +212,16 @@ class TransferView extends StatelessWidget {
                                 String transactionName =
                                     _transactionNameController.text.trim();
 
-                                Account selectedAccount = state.accounts
-                                    .firstWhere((account) =>
-                                        account.id == _selectedAccountId);
+                                // Account selectedAccount = state.accounts
+                                //     .firstWhere((account) =>
+                                //         account.id == _selectedAccountId);
+                                //
+                                // String accountName = selectedAccount.name;
+                                //
+                                // Account destinationAccount = state.accounts
+                                //     .firstWhere((account) =>
+                                //         account.id == _destinationAccountId);
 
-                                String accountName = selectedAccount.name;
-
-                                Account destinationAccount = state.accounts
-                                    .firstWhere((account) =>
-                                        account.id == _destinationAccountId);
-                                print('destinationAccount: $destinationAccount');
-                                print('selectedAccount: $selectedAccount');
                                 BlocProvider.of<TransactionCubit>(context)
                                     .transfer(
                                   _selectedAccountId!,
@@ -226,8 +229,6 @@ class TransferView extends StatelessWidget {
                                   _destinationAccountId!,
                                   transactionName,
                                 );
-                                _formKey.currentState!.reset();
-                                _amountController.clear();
                               }
                             },
                             child: const Text(
