@@ -27,4 +27,27 @@ abstract class TransactionDataSource {
           'Failed to load transactions with status code: ${response.statusCode} and body: ${response.body}');
     }
   }
+
+  static Future<void> transfer(String accessToken, int fromAccountId,
+      double amount, int toAccountId, String name) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/me/transactions/create'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'from_account_id': fromAccountId,
+        'to_account_id': toAccountId,
+        'amount': amount,
+        'name': name,
+        'date': DateTime.now().toIso8601String(),
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception(
+          'Failed to transfer with status code: ${response.statusCode} and body: ${response.body}');
+    }
+  }
 }

@@ -15,3 +15,5 @@ class TransactionError extends TransactionState {
   final String message;
   TransactionError(this.message);
 }
+
+class TransactionTransferSuccess extends TransactionState {}
