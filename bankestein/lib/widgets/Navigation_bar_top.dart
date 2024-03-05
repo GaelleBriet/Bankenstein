@@ -11,7 +11,8 @@ class NavigationBarTop extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: title != 'Home'
+      automaticallyImplyLeading: false,
+      leading: (title.toLowerCase() != 'home')
           ? IconButton(
               icon: const Icon(
                 Icons.arrow_back,
