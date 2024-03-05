@@ -5,16 +5,24 @@ import 'package:bankestein/widgets/Navigation_bar_top.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/account_cubit.dart';
+import '../models/account.dart';
 import '../widgets/Navigation_bar_bottom.dart';
 
 class TransferView extends StatelessWidget {
-  const TransferView({super.key});
+  // const TransferView({super.key});
+  TransferView({Key? key}) : super(key: key);
+
+  final _formKey = GlobalKey<FormState>();
+  final _amountController = TextEditingController();
 
   static const String pageName = 'transfer';
 
   @override
   Widget build(BuildContext context) {
     final authenticationCubit = context.read<AuthenticationCubit>();
+
+    int? _selectedAccountId;
+
 
     return Scaffold(
       appBar: const NavigationBarTop(title: 'Transfer'),
@@ -40,37 +48,37 @@ class TransferView extends StatelessWidget {
         child: BlocBuilder<AccountCubit, AccountState>(
           builder: (context, state) {
             if (state is AccountsLoaded) {
-              print('Accounts loaded');
-              List<String> accounts =
-                  state.accounts.map((account) => account.toString()).toList();
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Form(
+                  key: _formKey,
                   child: ListView(
                     children: <Widget>[
-                      DropdownButtonFormField<String>(
+                      DropdownButtonFormField<int>(
                         decoration: const InputDecoration(
                           labelText: 'From Account*',
                           icon: Icon(Icons.verified_user_outlined),
                         ),
-                        items: accounts.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
+                        items: state.accounts.map((Account account) {
+                          return DropdownMenuItem<int>(
+                            value: account.id,
+                            child: Text(account.toString()),
                           );
                         }).toList(),
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null ) {
                             return 'Ce champ est obligatoire';
                           }
                           return null;
                         },
-                        onChanged: (_) {
-                          // Handle change
+                        onChanged: (value) {
+                          _selectedAccountId = value;
+                          print(_selectedAccountId);
                         },
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
+                        controller: _amountController,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                           labelText: 'Amount to transfer*',
@@ -79,6 +87,10 @@ class TransferView extends StatelessWidget {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter an amount';
+                          } else if (double.tryParse(value) == null) {
+                            return 'Please enter a valid number';
+                          } else if (double.parse(value) <= 0) {
+                            return 'Please enter a number greater than 0';
                           }
                           return null;
                         },
@@ -112,18 +124,11 @@ class TransferView extends StatelessWidget {
                           labelText: 'Transaction name',
                           icon: Icon(Icons.account_balance_wallet),
                         ),
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a name for the transaction';
-                        //   }
-                        //   return null;
-                        // },
                       ),
                       const SizedBox(height: 24),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
+                        margin: const EdgeInsets.symmetric(horizontal:100),
                         height: 50.0,
-                        padding: const EdgeInsets.symmetric(horizontal: 128.0),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Theme.of(context).primaryColor,
@@ -133,7 +138,23 @@ class TransferView extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            // Implement submit logic
+                            if (!_formKey.currentState!.validate()) {
+                              // si le formulaire n'est pas valide
+                              return;
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Processing Data')),
+                              );
+                              // si le formulaire est valide
+                              // BlocProvider.of<TransactionCubit>(context).transfer(
+                              //   _selectedAccountId,
+                              //   _amountController.text,
+                              // );
+                            }
+                            double amountToTransfer = double.parse(_amountController.text);
+                            print('Selected account: $_selectedAccountId');
+                            print('Amount to transfer: $amountToTransfer');
+
                           },
                           child: const Text(
                             'Submit',
