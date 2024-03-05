@@ -8,8 +8,7 @@ part 'authentication_state.dart';
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit() : super(AuthenticationUnknown());
 
-  Future<void> login(
-      String email, String password) async {
+  Future<void> login(String email, String password) async {
     try {
       final accessToken = await AuthenticationDataSource.login(
         email: email,

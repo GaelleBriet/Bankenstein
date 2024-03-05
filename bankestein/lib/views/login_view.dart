@@ -77,8 +77,7 @@ class LoginView extends StatelessWidget {
                   primary: Theme.of(context).primaryColor,
                   onPrimary: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        4.0),
+                    borderRadius: BorderRadius.circular(4.0),
                   ),
                   minimumSize: const Size.fromHeight(50),
                   elevation: 4.0,
@@ -88,9 +87,7 @@ class LoginView extends StatelessWidget {
                   String password = passwordController.text.trim();
                   print(
                       'Login button pressed with email: $email and password: $password');
-                  context
-                      .read<AuthenticationCubit>()
-                      .login(email, password);
+                  context.read<AuthenticationCubit>().login(email, password);
                 },
                 child: const Text('Login'),
               ),

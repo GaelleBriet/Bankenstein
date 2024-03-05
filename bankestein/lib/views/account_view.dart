@@ -39,8 +39,9 @@ class AccountView extends StatelessWidget {
               final accountCubit = AccountCubit(authenticationCubit);
               String? accessToken;
               if (authenticationCubit.state is AuthenticationAuthenticated) {
-                accessToken = (authenticationCubit.state as AuthenticationAuthenticated)
-                    .accessToken;
+                accessToken =
+                    (authenticationCubit.state as AuthenticationAuthenticated)
+                        .accessToken;
               }
               accountCubit.getAccount(accessToken!, id);
               return accountCubit;
@@ -51,8 +52,9 @@ class AccountView extends StatelessWidget {
               final transactionCubit = TransactionCubit(authenticationCubit);
               String? accessToken;
               if (authenticationCubit.state is AuthenticationAuthenticated) {
-                accessToken = (authenticationCubit.state as AuthenticationAuthenticated)
-                    .accessToken;
+                accessToken =
+                    (authenticationCubit.state as AuthenticationAuthenticated)
+                        .accessToken;
               }
               transactionCubit.getAccountTransactions(accessToken!, id);
               return transactionCubit;
@@ -88,8 +90,10 @@ class AccountView extends StatelessWidget {
                                   ),
                                   onPressed: () async {
                                     try {
-                                      final accountCubit = context.read<AccountCubit>();
-                                      final accessToken = accountCubit.accessToken;
+                                      final accountCubit =
+                                          context.read<AccountCubit>();
+                                      final accessToken =
+                                          accountCubit.accessToken;
                                       await AccountService.exportRIB(
                                           accountCubit, accessToken!, id);
                                       print('RIB exported');
@@ -106,8 +110,7 @@ class AccountView extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              'Total Balance: ${balanceInEuros.toStringAsFixed(
-                                  2)}€',
+                              'Total Balance: ${balanceInEuros.toStringAsFixed(2)}€',
                               style: const TextStyle(
                                 color: Colors.white,
                               ),
@@ -128,7 +131,7 @@ class AccountView extends StatelessWidget {
                           itemCount: transactionState.transactions.length,
                           itemBuilder: (context, index) {
                             final transaction =
-                            transactionState.transactions[index];
+                                transactionState.transactions[index];
                             final balanceInEuros = transaction.amount / 100;
                             return ListTile(
                               title: Text(transaction.name),
