@@ -23,7 +23,6 @@ class TransferView extends StatelessWidget {
 
     int? _selectedAccountId;
 
-
     return Scaffold(
       appBar: const NavigationBarTop(title: 'Transfer'),
       body: MultiBlocProvider(
@@ -66,7 +65,7 @@ class TransferView extends StatelessWidget {
                           );
                         }).toList(),
                         validator: (value) {
-                          if (value == null ) {
+                          if (value == null) {
                             return 'Ce champ est obligatoire';
                           }
                           return null;
@@ -127,7 +126,7 @@ class TransferView extends StatelessWidget {
                       ),
                       const SizedBox(height: 24),
                       Container(
-                        margin: const EdgeInsets.symmetric(horizontal:100),
+                        margin: const EdgeInsets.symmetric(horizontal: 100),
                         height: 50.0,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -148,22 +147,27 @@ class TransferView extends StatelessWidget {
                               );
                               return;
                             } else {
+                              // si le formulaire est valide
+                              double amountToTransfer =
+                                  double.parse(_amountController.text);
+                              String accountName = _selectedAccountId.toString();
+
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Processing Data'),
-                                    backgroundColor: Colors.green,
+                                SnackBar(
+                                  content: Text(
+                                      'Transfer en cours : $amountToTransfer € de $accountName vers ...'),
+                                  backgroundColor: Colors.green,
                                 ),
                               );
-                              // si le formulaire est valide
+                              _formKey.currentState!.reset();
+                              _amountController.clear();
                               // BlocProvider.of<TransactionCubit>(context).transfer(
                               //   _selectedAccountId,
-                              //   _amountController.text,
+                              //   amountToTransfer,
                               // );
+                              print('Selected account: $_selectedAccountId');
+                              print('Amount to transfer: $amountToTransfer');
                             }
-                            double amountToTransfer = double.parse(_amountController.text);
-                            print('Selected account: $_selectedAccountId');
-                            print('Amount to transfer: $amountToTransfer');
-
                           },
                           child: const Text(
                             'Submit',

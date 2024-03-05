@@ -75,7 +75,7 @@ abstract class AppRouter {
           GoRoute(
             path: '/transfer',
             name: TransferView.pageName,
-            pageBuilder: (context, state) =>  NoTransitionPage(
+            pageBuilder: (context, state) => NoTransitionPage(
               child: TransferView(),
             ),
           ),
