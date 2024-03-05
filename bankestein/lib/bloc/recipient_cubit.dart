@@ -49,16 +49,16 @@ class RecipientCubit extends Cubit<RecipientState> {
     }
   }
 
-  void updateRecipient(String accessToken, String name, String iban) async {
+  void updateRecipient(String accessToken, String name, String iban, int? recipientId) async {
     try {
       emit(RecipientLoading());
-      await RecipientService.updateRecipient(accessToken, name, iban);
+      await RecipientService.updateRecipient(accessToken, name, iban, recipientId);
       final updatedRecipients =
           await RecipientService.getRecipients(accessToken);
       emit(RecipientLoaded(updatedRecipients));
     } catch (e) {
       final recipients = await RecipientService.getRecipients(accessToken);
-      emit(RecipientError("Failed to modify recipient", recipients));
+      emit(RecipientError("Failed to modify recipient {$e}", recipients));
       emit(RecipientLoaded(recipients));
     }
   }
