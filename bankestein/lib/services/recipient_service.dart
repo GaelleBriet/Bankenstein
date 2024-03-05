@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 abstract class RecipientService {
   // static const baseUrl = 'http://uriostegui-sam-server.eddi.cloud:8000';
-  static const baseUrl = 'http://192.168.1.32:8000';
+  static const baseUrl = 'http://uriostegui-sam-server.eddi.cloud:8000';
 
   static Future<List<Recipient>> getRecipients(String accessToken) async {
     final response = await http.get(
@@ -48,19 +48,20 @@ abstract class RecipientService {
   }
 
   static Future<void> updateRecipient(
-      String accessToken, String name, String iban) async {
+      String accessToken, String name, String iban, int? recipientId) async {
     try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/api/me/recipients/add'),
+      final response = await http.post(        
+        Uri.parse('$baseUrl/api/me/recipients/$recipientId/update'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $accessToken',
         },
-        body: jsonEncode(<String, dynamic>{'name': name, 'iban': iban}),
+        body: jsonEncode(<String, dynamic>{'name': name, 'iban': iban, 'recipientId': recipientId}),
       );
 
       if (response.statusCode == 200) {
       } else {
+        print(response);
         throw Exception('Failed to update recipient: ${response.statusCode}');
       }
     } catch (error) {

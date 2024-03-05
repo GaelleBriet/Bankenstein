@@ -54,6 +54,7 @@ class RecipientList extends StatelessWidget {
                                 namePopUp: "Modify",
                                 recipientName: recipient.name,
                                 recipientIban: recipient.iban,
+                                recipientAccountId: recipient.id,
                               );
                             },
                           );
