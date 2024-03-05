@@ -6,8 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../bloc/account_cubit.dart';
+import '../bloc/recipient_cubit.dart';
+import '../bloc/recipient_state.dart';
 import '../bloc/transaction_cubit.dart';
 import '../models/account.dart';
+import '../models/recipient.dart';
 import '../widgets/Navigation_bar_bottom.dart';
 
 class TransferView extends StatelessWidget {
@@ -47,19 +50,19 @@ class TransferView extends StatelessWidget {
           BlocProvider<TransactionCubit>(
             create: (context) => TransactionCubit(authenticationCubit),
           ),
-          // BlocProvider<RecipientCubit>(
-          //   create: (context) {
-          //     final recipientCubit = RecipientCubit(authenticationCubit);
-          //     String? accessToken;
-          //     if (authenticationCubit.state is AuthenticationAuthenticated) {
-          //       accessToken =
-          //           (authenticationCubit.state as AuthenticationAuthenticated)
-          //               .accessToken;
-          //     }
-          //     recipientCubit.getRecipients(accessToken!);
-          //     return recipientCubit;
-          //   },
-          // ),
+          BlocProvider<RecipientCubit>(
+            create: (context) {
+              final recipientCubit = RecipientCubit(authenticationCubit);
+              String? accessToken;
+              if (authenticationCubit.state is AuthenticationAuthenticated) {
+                accessToken =
+                    (authenticationCubit.state as AuthenticationAuthenticated)
+                        .accessToken;
+              }
+              recipientCubit.getRecipients(accessToken!);
+              return recipientCubit;
+            },
+          ),
         ],
         child: BlocListener<TransactionCubit, TransactionState>(
           listener: (context, state) {
@@ -102,7 +105,6 @@ class TransferView extends StatelessWidget {
                           },
                           onChanged: (value) {
                             _selectedAccountId = value;
-                            print(_selectedAccountId);
                           },
                         ),
                         const SizedBox(height: 16),
@@ -125,56 +127,49 @@ class TransferView extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 16),
-                        // BlocBuilder<RecipientCubit, RecipientState>(
-                        //   builder: (context, recipientState) {
-                        //     if (recipientState is RecipientsLoaded) {
-                        //       return DropdownButtonFormField<int>(
-                        //         decoration: const InputDecoration(
-                        //           labelText: 'To Recipient*',
-                        //           icon: Icon(Icons.verified_user_outlined),
-                        //         ),
-                        //         // items: <String>['Benj', 'Alice', 'Company Inc.']
-                        //         //     .map((String value) {
-                        //         //   return DropdownMenuItem<String>(
-                        //         //     value: value,
-                        //         //     child: Text(value),
-                        //         //   );
-                        //         // }).toList(),
-                        //         items: recipientState.recipients.map((
-                        //             Recipient recipient) {
-                        //           return DropdownMenuItem<int>(
-                        //             value: recipient.id,
-                        //             child: Text(recipient.name.toString()),
-                        //           );
-                        //         }).toList(),
-                        //         validator: (value) {
-                        //           if (value == null) {
-                        //             return 'Ce champ est obligatoire';
-                        //           }
-                        //           return null;
-                        //         },
-                        //         onChanged: (value) {
-                        //            _destinationAccountId = value;
-                        //         },
-                        //       );
-                        //     } else if (recipientState is RecipientLoading) {
-                        //       return DropdownButtonFormField<String>(
-                        //           decoration: const InputDecoration(
-                        //             labelText: 'To Recipient*',
-                        //             icon: Icon(Icons.verified_user_outlined),
-                        //           ),
-                        //           items: const [],
-                        //           onChanged: null,
-                        //       );
-                        //     } else if (recipientState is RecipientError) {
-                        //       return Center(
-                        //         child: Text('Error: ${recipientState.message}'),
-                        //       );
-                        //     } else {
-                        //       return Container();
-                        //     }
-                        //   },
-                        // ),
+                        BlocBuilder<RecipientCubit, RecipientState>(
+                          builder: (context, recipientState) {
+                            if (recipientState is RecipientLoaded) {
+                              return DropdownButtonFormField<int>(
+                                decoration: const InputDecoration(
+                                  labelText: 'To Recipient*',
+                                  icon: Icon(Icons.verified_user_outlined),
+                                ),
+                                items: recipientState.recipients.map<DropdownMenuItem<int>>((
+                                    Recipient recipient) {
+                                  return DropdownMenuItem<int>(
+                                    value: recipient.id,
+                                    child: Text(recipient.name.toString()),
+                                  );
+                                }).toList(),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Ce champ est obligatoire';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                   _destinationAccountId = value;
+                                },
+                              );
+                            } else if (recipientState is RecipientLoading) {
+                              return DropdownButtonFormField<String>(
+                                  decoration: const InputDecoration(
+                                    labelText: 'To Recipient*',
+                                    icon: Icon(Icons.verified_user_outlined),
+                                  ),
+                                  items: const [],
+                                  onChanged: null,
+                              );
+                            } else if (recipientState is RecipientError) {
+                              return Center(
+                                child: Text('Error: ${recipientState.errorMessage}'),
+                              );
+                            } else {
+                              return Container();
+                            }
+                          },
+                        ),
                         const SizedBox(height: 16),
                         TextFormField(
                           controller: _transactionNameController,
@@ -222,17 +217,8 @@ class TransferView extends StatelessWidget {
                                 Account destinationAccount = state.accounts
                                     .firstWhere((account) =>
                                         account.id == _destinationAccountId);
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        'Transfer en cours : $amountToTransfer € de $accountName vers $destinationAccount'),
-                                    backgroundColor: Colors.green,
-                                  ),
-                                );
-                                _formKey.currentState!.reset();
-                                _amountController.clear();
-                                GoRouter.of(context).push('/accounts');
+                                print('destinationAccount: $destinationAccount');
+                                print('selectedAccount: $selectedAccount');
                                 BlocProvider.of<TransactionCubit>(context)
                                     .transfer(
                                   _selectedAccountId!,
@@ -240,6 +226,8 @@ class TransferView extends StatelessWidget {
                                   _destinationAccountId!,
                                   transactionName,
                                 );
+                                _formKey.currentState!.reset();
+                                _amountController.clear();
                               }
                             },
                             child: const Text(
@@ -253,10 +241,8 @@ class TransferView extends StatelessWidget {
                   ),
                 );
               } else if (state is AccountLoading) {
-                print('Loading');
                 return const Center(child: CircularProgressIndicator());
               } else if (state is AccountError) {
-                print('Error');
                 return Center(
                   child: Text('Error: ${state.message}'),
                 );
