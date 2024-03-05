@@ -25,7 +25,8 @@ abstract class RecipientService {
     }
   }
 
-  static Future<void> addRecipient(String accessToken, String name, String iban) async {
+  static Future<void> addRecipient(
+      String accessToken, String name, String iban) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/api/me/recipients/add'),
@@ -46,8 +47,30 @@ abstract class RecipientService {
     }
   }
 
+  static Future<void> updateRecipient(
+      String accessToken, String name, String iban) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/me/recipients/add'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: jsonEncode(<String, dynamic>{'name': name, 'iban': iban}),
+      );
 
-  static Future<void> deleteRecipient(String accessToken, int recipientId) async {
+      if (response.statusCode == 200) {
+        print("all good");
+      } else {
+        throw Exception('Failed to update recipient: ${response.statusCode}');
+      }
+    } catch (error) {
+      throw Exception('Error while updating recipient: $error');
+    }
+  }
+
+  static Future<void> deleteRecipient(
+      String accessToken, int recipientId) async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/api/me/recipients/$recipientId/delete'),
@@ -68,6 +91,4 @@ abstract class RecipientService {
       print('Error while deleting recipient: $error');
     }
   }
-
 }
-

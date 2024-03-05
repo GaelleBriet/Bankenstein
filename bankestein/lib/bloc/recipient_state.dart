@@ -13,6 +13,7 @@ class RecipientLoaded extends RecipientState {
 
 class RecipientError extends RecipientState {
   final String errorMessage;
+  final List<Recipient> recipients;
 
-  RecipientError(this.errorMessage);
+  RecipientError(this.errorMessage, this.recipients);
 }
