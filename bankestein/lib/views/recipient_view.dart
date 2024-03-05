@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/recipient_cubit.dart';
-import '../widgets/navigation_bar_bottom.dart';
-import '../widgets/navigation_bar_top.dart';
+import '../widgets/Navigation_bar_bottom.dart';
+import '../widgets/Navigation_bar_top.dart';
+
 
 class RecipientsView extends StatelessWidget {
   const RecipientsView({Key? key}) : super(key: key);
