@@ -42,7 +42,7 @@ abstract class AuthenticationDataSource {
     _authController.add(null);
   }
 
-  static Future<String> getUserInfo(String accessToken) async {
+  static Future<Map<String, dynamic>> getUserInfo(String accessToken) async {
     final response = await http.get(
       Uri.parse('$baseUrl/api/me'),
       headers: <String, String>{
@@ -54,7 +54,8 @@ abstract class AuthenticationDataSource {
     if (response.statusCode == 200) {
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       String userName = responseBody['name'];
-      return userName;
+      int userId = responseBody['id'];
+      return {'name': userName, 'id': userId};
     } else {
       throw Exception('Failed to load user info');
     }

@@ -27,4 +27,10 @@ abstract class TransactionService {
       }
     }).toList();
   }
+
+  static List<Transaction> getLastThreeTransactions(
+      List<Transaction> transactions, int accountId) {
+    transactions.sort((a, b) => b.date.compareTo(a.date));
+    return transactions.take(3).toList();
+  }
 }
