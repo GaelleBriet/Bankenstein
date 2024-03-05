@@ -2,6 +2,8 @@ import 'package:bankestein/models/recipient.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../models/account.dart';
+
 abstract class RecipientService {
   // static const baseUrl = 'http://uriostegui-sam-server.eddi.cloud:8000';
   static const baseUrl = 'http://192.168.1.32:8000';
@@ -19,6 +21,7 @@ abstract class RecipientService {
       List<dynamic> responseBody = jsonDecode(response.body);
       List<Recipient> recipients =
           responseBody.map((e) => Recipient.fromJson(e)).toList();
+      // int recipientAccount = recipients.first.accountId;
       return recipients;
     } else {
       throw Exception(

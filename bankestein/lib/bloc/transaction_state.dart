@@ -16,15 +16,15 @@ class TransactionError extends TransactionState {
   TransactionError(this.message);
 }
 
-// class TransactionTransferSuccess extends TransactionState {}
-class TransactionTransferSuccess extends TransactionState {
-  final double amountToTransfer;
-  final String accountName;
-  final Account destinationAccount;
-
-  TransactionTransferSuccess({
-    required this.amountToTransfer,
-    required this.accountName,
-    required this.destinationAccount,
-  });
-}
+class TransactionTransferSuccess extends TransactionState {}
+// class TransactionTransferSuccess extends TransactionState {
+//   final double amountToTransfer;
+//   final String accountName;
+//   final Account destinationAccount;
+//
+//   TransactionTransferSuccess({
+//     required this.amountToTransfer,
+//     required this.accountName,
+//     required this.destinationAccount,
+//   });
+// }
