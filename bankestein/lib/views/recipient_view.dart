@@ -15,7 +15,14 @@ class RecipientsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
+    String? accessToken;
+    if (authenticationCubit.state is AuthenticationAuthenticated) {
+      accessToken =
+          (authenticationCubit.state as AuthenticationAuthenticated).accessToken;
+    }
     final recipientCubit = BlocProvider.of<RecipientCubit>(context);
+    recipientCubit.getRecipients(accessToken!);
     final authState = context.watch<AuthenticationCubit>().state;
 
     return BlocListener<RecipientCubit, RecipientState>(
