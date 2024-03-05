@@ -1,13 +1,13 @@
-import 'dart:io';
-import 'package:bankestein/bloc/authentication_cubit.dart';
-import 'package:bankestein/services/account_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../bloc/account_cubit.dart';
-import '../bloc/transaction_cubit.dart';
+import 'package:bankestein/services/account_service.dart';
+
+import 'package:bankestein/bloc/authentication_cubit.dart';
+import 'package:bankestein/bloc/account_cubit.dart';
+import 'package:bankestein/bloc/transaction_cubit.dart';
 
 import '../widgets/Navigation_bar_bottom.dart';
 import '../widgets/Navigation_bar_top.dart';
@@ -29,15 +29,6 @@ class AccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
-    // String? accessToken;
-    // if (authenticationCubit.state is AuthenticationAuthenticated) {
-    //   accessToken = (authenticationCubit.state as AuthenticationAuthenticated)
-    //       .accessToken;
-    // }
-    // final accountCubit = BlocProvider.of<AccountCubit>(context);
-    // final transactionCubit = BlocProvider.of<TransactionCubit>(context);
-    // accountCubit.getAccount(accessToken!, id);
-    // transactionCubit.getAccountTransactions(accessToken!, id);
 
     return Scaffold(
       appBar: const NavigationBarTop(title: 'Account details'),

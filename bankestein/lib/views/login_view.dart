@@ -1,4 +1,3 @@
-import 'package:bankestein/bloc/account_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -79,15 +78,12 @@ class LoginView extends StatelessWidget {
                   onPrimary: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
-                        4.0), // Bord arrondi spécifique à Material 2
+                        4.0),
                   ),
                   minimumSize: const Size.fromHeight(50),
                   elevation: 4.0,
-                  // backgroundColor: Theme.of(context).primaryColor,
-                  // foregroundColor: Colors.white,
                 ),
                 onPressed: () {
-                  // Logique de connexion
                   String email = emailController.text.trim();
                   String password = passwordController.text.trim();
                   print(

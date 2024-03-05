@@ -1,8 +1,9 @@
-import 'package:bankestein/bloc/authentication_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:bankestein/bloc/authentication_cubit.dart';
 import '../bloc/settings_cubit.dart';
+
 import '../widgets/Navigation_bar_bottom.dart';
 import '../widgets/Navigation_bar_top.dart';
 

@@ -20,7 +20,6 @@ abstract class AccountDataSource {
       List<dynamic> responseBody = jsonDecode(response.body);
       List<Account> accounts =
           responseBody.map((e) => Account.fromJson(e)).toList();
-      print('Accounts!!!!!! : $accounts');
       return accounts;
     } else {
       throw Exception(
