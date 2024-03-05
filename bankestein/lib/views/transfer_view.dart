@@ -140,10 +140,19 @@ class TransferView extends StatelessWidget {
                           onPressed: () {
                             if (!_formKey.currentState!.validate()) {
                               // si le formulaire n'est pas valide
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Une erreur est survenue'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
                               return;
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Processing Data')),
+                                const SnackBar(
+                                    content: Text('Processing Data'),
+                                    backgroundColor: Colors.green,
+                                ),
                               );
                               // si le formulaire est valide
                               // BlocProvider.of<TransactionCubit>(context).transfer(
