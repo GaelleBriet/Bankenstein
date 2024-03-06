@@ -18,6 +18,11 @@ class RecipientsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final recipientCubit = BlocProvider.of<RecipientCubit>(context);
     final authState = context.watch<AuthenticationCubit>().state;
+    final authCubit = context.watch<AuthenticationCubit>();
+    if (authCubit.state is AuthenticationAuthenticated) {
+      final accessToken = (authCubit.state as AuthenticationAuthenticated).accessToken;
+      recipientCubit.getRecipients(accessToken);
+    }
 
     return BlocListener<RecipientCubit, RecipientState>(
       listener: (context, state) {
@@ -64,7 +69,7 @@ class RecipientsView extends StatelessWidget {
           }
         },
       ),
-      bottomNavigationBar: const NavigationBarBottom(selectedIndex: 3),
+      bottomNavigationBar: const NavigationBarBottom(selectedIndex: 2),
     ),);
   }
 }

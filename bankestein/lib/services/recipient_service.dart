@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import '../models/account.dart';
 
 abstract class RecipientService {
+  static const baseUrl = 'http://192.168.1.32:8000';
   // static const baseUrl = 'http://uriostegui-sam-server.eddi.cloud:8000';
-  static const baseUrl = 'http://uriostegui-sam-server.eddi.cloud:8000';
 
   static Future<List<Recipient>> getRecipients(String accessToken) async {
     final response = await http.get(
