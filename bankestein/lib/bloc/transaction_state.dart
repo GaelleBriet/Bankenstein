@@ -17,4 +17,3 @@ class TransactionError extends TransactionState {
 }
 
 class TransactionTransferSuccess extends TransactionState {}
-
