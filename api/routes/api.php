@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me/accounts/{account}/transactions', [UserController::class, 'userAccountTransactions']);
 
     Route::post('/me/recipients/add', [UserController::class, 'userAddRecipient']);
+    Route::get('/me/recipients/{recipient}/update', [UserController::class, 'userUpdateRecipient']);
     Route::get('/me/recipients/{recipient}/delete', [UserController::class, 'userDeleteRecipient']);
     Route::post('/me/transactions/create', [UserController::class, 'userAccountTransactionsCreate']);
 });

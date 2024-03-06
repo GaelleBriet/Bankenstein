@@ -12,6 +12,7 @@ class RecipientDialog extends StatelessWidget {
   final bool isUpdate;
   final String? recipientName;
   final String? recipientIban;
+  final int? recipientAccountId;
 
   const RecipientDialog({
     Key? key,
@@ -23,6 +24,8 @@ class RecipientDialog extends StatelessWidget {
     required this.isUpdate,
     this.recipientName,
     this.recipientIban,
+    this.recipientAccountId,
+
   }) : super(key: key);
 
   @override
@@ -54,6 +57,7 @@ class RecipientDialog extends StatelessWidget {
               ),
               TextFormField(
                 controller: ibanController,
+                enabled: isUpdate ? false : true,                
                 decoration: const InputDecoration(
                   labelText: 'IBAN',
                 ),
@@ -83,6 +87,7 @@ class RecipientDialog extends StatelessWidget {
                   authState.accessToken,
                   name,
                   iban,
+                  recipientAccountId,
                 );
               } else {
                 recipientCubit.addRecipient(

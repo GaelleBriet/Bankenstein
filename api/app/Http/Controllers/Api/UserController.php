@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Recipient;
@@ -11,11 +12,12 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
-  public function getUser() {
+  public function getUser()
+  {
     $user = auth()->user();
     $user = User::where('id', $user->id)->with(['accounts', 'recipients'])->first();
 
-    if(!$user) {
+    if (!$user) {
       return response()->json(['error' => 'User not found.'], 400);
     }
 
@@ -37,31 +39,33 @@ class UserController extends Controller
 
     $account = $user->accounts()->where('id', $id)->first();
 
-    if(!$account) {
+    if (!$account) {
       return response()->json(['error' => 'Account not found.'], 400);
     }
 
     return response()->json($account);
   }
 
-  public function userRecipients() {
+  public function userRecipients()
+  {
     $user = $this->getUser();
 
     $recipients = $user->recipients()->orderBy('name', 'asc')->get();
 
-    foreach($recipients as $recipient) {
+    foreach ($recipients as $recipient) {
       $recipient->iban = $recipient->account->iban;
     }
-   
+
     return response()->json($recipients);
   }
-  
-  public function userAccountTransactions($id) {
+
+  public function userAccountTransactions($id)
+  {
     $user = $this->getUser();
 
     $account = $user->accounts()->where('id', $id)->first();
 
-    if(!$account) {
+    if (!$account) {
       return response()->json(['error' => 'Account not found.'], 400);
     }
 
@@ -69,7 +73,8 @@ class UserController extends Controller
     return response()->json($transactions);
   }
 
-  public function userAddRecipient(Request $request) {
+  public function userAddRecipient(Request $request)
+  {
     $user = $this->getUser();
 
     $request->validate([
@@ -81,11 +86,11 @@ class UserController extends Controller
 
     $account = Account::where('iban', $iban)->first();
 
-    if(!$account) {
+    if (!$account) {
       return response()->json(['error' => 'Account not found with this IBAN'], 400);
     }
 
-    if($user->recipients()->where('account_id', $account->id)->exists()) {
+    if ($user->recipients()->where('account_id', $account->id)->exists()) {
       return response()->json(['error' => 'Recipient already exists.'], 400);
     }
 
@@ -102,12 +107,54 @@ class UserController extends Controller
     return response()->json($recipient);
   }
 
-  public function userDeleteRecipient($recipient) {
+  public function userUpdateRecipient(Request $request)
+  {
+    $user = $this->getUser();
+
+    $recipient = $user->recipients()->find($request->get('recipientId'));
+
+    if (!$recipient) {
+      return response()->json(['error' => 'Recipient not found for this user.'], 404);
+    }
+
+    $request->validate([
+      'name' => 'required',
+      'iban' => 'required',
+    ]);
+
+    $iban = str_replace(' ', '', $request->get('iban'));
+
+    $account = Account::where('iban', $iban)->first();
+
+    if (!$account) {
+      return response()->json(['error' => 'Account not found with this IBAN'], 400);
+    }
+
+    // Check if the account is already associated with another recipient
+    $existingRecipient = $user->recipients()->where('account_id', $account->id)->first();
+    if ($existingRecipient && $existingRecipient->id != $recipient->id) {
+      return response()->json(['error' => 'Account is already associated with another recipient.'], 400);
+    }
+
+    // Update recipient details
+    $recipient->name = $request->get('name');
+    $recipient->account_id = $account->id;
+    $recipient->save();
+
+    // Update IBAN field for response
+    $recipient->iban = $recipient->account->iban;
+
+    return response()->json($recipient);
+  }
+
+
+  public function userDeleteRecipient($recipient)
+  {
     $user = $this->getUser();
 
     $recipient = $user->recipients()->where('id', $recipient)->first();
 
-    if(!$recipient) {
+    if (!$recipient) {
       return response()->json(['error' => 'Recipient not found for this user. Can\t delete it'], 400);
     }
 
@@ -116,10 +163,11 @@ class UserController extends Controller
     return response()->json(['success' => 'Recipient deleted.']);
   }
 
-  public function userAccountTransactionsCreate(Request $request) {
+  public function userAccountTransactionsCreate(Request $request)
+  {
     $user = $this->getUser();
 
-    if(!$user) {
+    if (!$user) {
       return response()->json(['error' => 'User not found.'], 400);
     }
 
@@ -140,10 +188,10 @@ class UserController extends Controller
     }
 
     $fromAccount = $user->accounts()->where('id', $fromAccountId)->first();
-    
+
     $toAccount = Account::where('id', $toAccountId)->first();
 
-    if(!$toAccount) {
+    if (!$toAccount) {
       return response()->json(['error' => 'to_account_id does not exist'], 400);
     }
 
@@ -163,7 +211,7 @@ class UserController extends Controller
     ]);
 
     $transaction->save();
-    
+
     $fromAccount->balance -= $amount;
     $fromAccount->save();
 
