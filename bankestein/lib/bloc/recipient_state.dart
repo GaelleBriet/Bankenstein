@@ -17,3 +17,9 @@ class RecipientError extends RecipientState {
 
   RecipientError(this.errorMessage, this.recipients);
 }
+
+class RecipientSuccess extends RecipientState {
+    final String message;
+
+    RecipientSuccess(this.message);
+}

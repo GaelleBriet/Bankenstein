@@ -57,6 +57,7 @@ class RecipientDialog extends StatelessWidget {
               ),
               TextFormField(
                 controller: ibanController,
+                enabled: isUpdate ? false : true,                
                 decoration: const InputDecoration(
                   labelText: 'IBAN',
                 ),

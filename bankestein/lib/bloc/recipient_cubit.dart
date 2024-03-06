@@ -41,6 +41,7 @@ class RecipientCubit extends Cubit<RecipientState> {
       await RecipientService.addRecipient(accessToken, name, iban);
       final updatedRecipients =
           await RecipientService.getRecipients(accessToken);
+      emit(RecipientSuccess("Success adding recipient"));
       emit(RecipientLoaded(updatedRecipients));
     } catch (e) {
       final recipients = await RecipientService.getRecipients(accessToken);
@@ -55,10 +56,11 @@ class RecipientCubit extends Cubit<RecipientState> {
       await RecipientService.updateRecipient(accessToken, name, iban, recipientId);
       final updatedRecipients =
           await RecipientService.getRecipients(accessToken);
+      emit(RecipientSuccess("Success updating recipient"));
       emit(RecipientLoaded(updatedRecipients));
     } catch (e) {
       final recipients = await RecipientService.getRecipients(accessToken);
-      emit(RecipientError("Failed to modify recipient {$e}", recipients));
+      emit(RecipientError("Failed to update recipient", recipients));
       emit(RecipientLoaded(recipients));
     }
   }
@@ -69,6 +71,7 @@ class RecipientCubit extends Cubit<RecipientState> {
       await RecipientService.deleteRecipient(accessToken, recipientId);
       final updatedRecipients =
           await RecipientService.getRecipients(accessToken);
+      emit(RecipientSuccess("Success deleting recipient"));
       emit(RecipientLoaded(updatedRecipients));
     } catch (e) {
       emit(RecipientError("Failed to delete recipient: $e", []));
