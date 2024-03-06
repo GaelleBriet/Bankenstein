@@ -68,9 +68,9 @@ class AccountCubit extends Cubit<AccountState> {
   Future<void> refresh() async {
     String? accessToken;
     if (authCubit.state is AuthenticationAuthenticated) {
-      accessToken = (authCubit.state as AuthenticationAuthenticated).accessToken;
+      accessToken =
+          (authCubit.state as AuthenticationAuthenticated).accessToken;
     }
     getAccounts(accessToken!);
   }
-
 }

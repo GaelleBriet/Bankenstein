@@ -14,41 +14,38 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
+    // final authenticationCubit = BlocProvider.of<AuthenticationCubit>(context);
 
-    return BlocProvider<TransactionCubit>(
-      create: (context) => TransactionCubit(authenticationCubit),
-      child: Scaffold(
-        appBar: const NavigationBarTop(title: 'Home'),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              BlocBuilder<AuthenticationCubit, AuthenticationState>(
-                builder: (context, state) {
-                  if (state is AuthenticationAuthenticated) {
-                    return Text(
-                      'Welcome ${state.name} !',
-                      style: const TextStyle(
-                        fontSize: 24,
-                      ),
-                    );
-                  } else {
-                    return const Text('Welcome!');
-                  }
-                },
-              ),
-              const SizedBox(height: 18),
-              const Text(
-                  'Use the navigation bar to go to your accounts or to transfer money.',
-                  style: TextStyle(
-                    fontSize: 12,
-                  )),
-            ],
-          ),
+    return Scaffold(
+      appBar: const NavigationBarTop(title: 'Home'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BlocBuilder<AuthenticationCubit, AuthenticationState>(
+              builder: (context, state) {
+                if (state is AuthenticationAuthenticated) {
+                  return Text(
+                    'Welcome ${state.name} !',
+                    style: const TextStyle(
+                      fontSize: 24,
+                    ),
+                  );
+                } else {
+                  return const Text('Welcome!');
+                }
+              },
+            ),
+            const SizedBox(height: 18),
+            const Text(
+                'Use the navigation bar to go to your accounts or to transfer money.',
+                style: TextStyle(
+                  fontSize: 12,
+                )),
+          ],
         ),
-        bottomNavigationBar: const NavigationBarBottom(selectedIndex: 0),
       ),
+      bottomNavigationBar: const NavigationBarBottom(selectedIndex: 0),
     );
   }
 }
