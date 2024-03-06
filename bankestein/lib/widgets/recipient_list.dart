@@ -32,7 +32,15 @@ class RecipientList extends StatelessWidget {
             itemBuilder: (context, index) {
               final recipient = recipients[index];
               return Container(
-                color: index.isEven ? Colors.grey[200] : Colors.transparent,
+                //color: index.isEven ? Colors.grey[200] : Colors.transparent,
+                color: index.isEven
+                      ? Theme.of(context).brightness == Brightness.dark
+                          ? Colors.grey[
+                              700] // Couleur plus foncée pour le thème sombre
+                          : Colors.grey[300] // Couleur pour le thème clair
+                      : Theme.of(context).brightness == Brightness.light
+                          ? Colors.grey[100]
+                          : Colors.grey[500],
                 child: ListTile(
                   title: Text(recipient.name),
                   subtitle: Text(recipient.iban),
