@@ -31,7 +31,6 @@ class AccountCubit extends Cubit<AccountState> {
     try {
       emit(AccountLoading());
       final accounts = await AccountDataSource.getAccounts(accessToken);
-      print('Accounts : $accounts');
       emit(AccountsLoaded(accounts));
     } catch (e) {
       emit(AccountError(e.toString()));
@@ -64,5 +63,14 @@ class AccountCubit extends Cubit<AccountState> {
 
   void reset() {
     emit(AccountReset());
+  }
+
+  Future<void> refresh() async {
+    String? accessToken;
+    if (authCubit.state is AuthenticationAuthenticated) {
+      accessToken =
+          (authCubit.state as AuthenticationAuthenticated).accessToken;
+    }
+    getAccounts(accessToken!);
   }
 }
