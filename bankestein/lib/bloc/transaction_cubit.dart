@@ -30,30 +30,12 @@ class TransactionCubit extends Cubit<TransactionState> {
   Future<void> transfer(
       int fromAccountId, double amount, int toAccountId, String name) async {
     try {
-      print('transfer');
-      final destinationAccount = await AccountDataSource.getAccount(
-          (authCubit.state as AuthenticationAuthenticated).accessToken,
-          toAccountId);
       final accessToken =
           (authCubit.state as AuthenticationAuthenticated).accessToken;
+      var amountInCents = (amount * 100);
       await TransactionDataSource.transfer(
-          accessToken, fromAccountId, amount, toAccountId, name);
-      emit(TransactionTransferSuccess(
-        amountToTransfer: amount,
-        accountName: name,
-        destinationAccount: destinationAccount,
-      ));
-    } catch (e) {
-      emit(TransactionError(e.toString()));
-    }
-  }
-
-  Future<void> getLastThreeTransactions(String accessToken, int userId) async {
-    try {
-      emit(TransactionLoading());
-      final transactions =
-          await TransactionDataSource.getLastThreeTransactions(accessToken, userId);
-      emit(TransactionLoaded(transactions));
+          accessToken, fromAccountId, amountInCents, toAccountId, name);
+      emit(TransactionTransferSuccess());
     } catch (e) {
       emit(TransactionError(e.toString()));
     }

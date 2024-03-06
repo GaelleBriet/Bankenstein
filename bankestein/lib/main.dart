@@ -30,7 +30,11 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider<AuthenticationCubit>(
           create: (context) => AuthenticationCubit(),
-        ),        
+        ),
+        BlocProvider<RecipientCubit>(
+          create: (context) =>
+              RecipientCubit(context.read<AuthenticationCubit>()),
+        ),
       ],
       child: BlocBuilder<SettingCubit, ThemeData>(
         builder: (context, state) {
